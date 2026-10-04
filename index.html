@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>观复姓名学</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #e8e8e8; line-height: 1.8; min-height: 100vh;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+  /* ===== 输入页 ===== */
+  .input-header {
+    text-align: center; padding: 50px 30px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 100%);
+    border: 1px solid rgba(212,175,55,0.3); border-radius: 16px;
+    margin-bottom: 30px; position: relative; overflow: hidden;
+  }
+  .input-header::before {
+    content: '☯'; position: absolute; top: -20px; right: -10px;
+    font-size: 120px; color: rgba(212,175,55,0.08);
+  }
+  .input-header .subtitle { font-size: 14px; color: #d4af37; letter-spacing: 8px; margin-bottom: 15px; }
+  .input-header h1 {
+    font-family: 'Noto Serif SC', serif; font-size: 36px; font-weight: 900;
+    color: #f5f5f5; margin-bottom: 10px; letter-spacing: 4px;
+  }
+  .input-header .desc { font-size: 14px; color: #aaa; margin-top: 15px; }
+
+  .input-section {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 35px; margin-bottom: 25px;
+  }
+  .form-group { margin-bottom: 22px; }
+  .form-group label {
+    display: block; font-size: 14px; color: #d4af37; font-weight: 700;
+    margin-bottom: 10px; letter-spacing: 2px;
+  }
+  .form-group label .required { color: #e74c3c; margin-left: 4px; }
+  .form-group label .optional { color: #888; font-size: 12px; margin-left: 8px; font-weight: 400; }
+  .form-input {
+    width: 100%; padding: 14px 18px; font-size: 16px;
+    background: rgba(0,0,0,0.3); border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 8px; color: #f5f5f5; font-family: 'Noto Sans SC', sans-serif;
+    transition: all 0.3s;
+  }
+  .form-input:focus { outline: none; border-color: #d4af37; box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
+  .form-input::placeholder { color: #666; }
+  select.form-input {
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 18px center;
+    padding-right: 40px; cursor: pointer;
+  }
+  select.form-input option {
+    background: #1a1a2e; color: #f5f5f5; padding: 8px;
+  }
+  .date-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .gender-option {
+    padding: 14px; text-align: center; border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 8px; cursor: pointer; transition: all 0.3s; font-size: 15px;
+    background: rgba(0,0,0,0.2);
+  }
+  .gender-option.active {
+    background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05));
+    border-color: #d4af37; color: #d4af37; font-weight: 700;
+  }
+  .btn-analyze {
+    width: 100%; padding: 18px; font-size: 18px; font-weight: 700;
+    background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1a2e;
+    border: none; border-radius: 10px; cursor: pointer; letter-spacing: 6px;
+    font-family: 'Noto Serif SC', serif; transition: all 0.3s; margin-top: 10px;
+  }
+  .btn-analyze:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.3); }
+  .btn-analyze:active { transform: translateY(0); }
+
+  /* ===== 报告页 ===== */
+  .header {
+    text-align: center; padding: 50px 30px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 100%);
+    border: 1px solid rgba(212,175,55,0.3); border-radius: 16px;
+    margin-bottom: 30px; position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: '☯'; position: absolute; top: -20px; right: -10px;
+    font-size: 120px; color: rgba(212,175,55,0.08);
+  }
+  .header .subtitle { font-size: 14px; color: #d4af37; letter-spacing: 8px; margin-bottom: 15px; }
+  .header h1 {
+    font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 900;
+    color: #f5f5f5; margin-bottom: 10px; letter-spacing: 4px;
+  }
+  .header .name-display {
+    font-size: 48px; font-weight: 900;
+    background: linear-gradient(135deg, #d4af37, #f4e4bc, #d4af37);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin: 20px 0; letter-spacing: 12px;
+    font-family: 'Noto Serif SC', serif;
+  }
+  .header .info { font-size: 14px; color: #aaa; margin-top: 15px; }
+  .header .info span { margin: 0 12px; }
+
+  .section {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 30px; margin-bottom: 25px; backdrop-filter: blur(10px);
+  }
+  .section-title {
+    font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700;
+    color: #d4af37; margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .icon { font-size: 24px; }
+
+  .bazi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .bazi-pillar {
+    background: linear-gradient(180deg, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.02) 100%);
+    border: 1px solid rgba(212,175,55,0.25); border-radius: 10px; padding: 18px 10px; text-align: center;
+  }
+  .bazi-pillar .pillar-label { font-size: 12px; color: #999; margin-bottom: 8px; letter-spacing: 2px; }
+  .bazi-pillar .gan { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 700; color: #f5f5f5; line-height: 1.2; }
+  .bazi-pillar .zhi { font-family: 'Noto Serif SC', serif; font-size: 32px; font-weight: 700; color: #d4af37; line-height: 1.2; margin-top: 4px; }
+  .bazi-pillar .wuxing { font-size: 11px; color: #888; margin-top: 8px; }
+  .bazi-pillar .shishen { font-size: 11px; color: #d4af37; margin-top: 4px; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(231,76,60,0.12), rgba(231,76,60,0.04));
+    border: 1px solid rgba(231,76,60,0.35); border-radius: 10px; padding: 18px; margin: 15px 0; text-align: center;
+  }
+  .highlight-box.good {
+    background: linear-gradient(135deg, rgba(46,204,113,0.12), rgba(46,204,113,0.04));
+    border-color: rgba(46,204,113,0.35);
+  }
+  .highlight-box .label { font-size: 13px; color: #e74c3c; font-weight: 700; margin-bottom: 6px; }
+  .highlight-box.good .label { color: #2ecc71; }
+  .highlight-box .content { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; color: #e74c3c; letter-spacing: 4px; }
+  .highlight-box.good .content { color: #2ecc71; }
+  .highlight-box .desc { font-size: 12px; color: #ccc; margin-top: 8px; line-height: 1.8; }
+
+  .shengyong-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+  .shengyong-item { padding: 18px; border-radius: 10px; text-align: center; }
+  .shengyong-item.xiyong { background: linear-gradient(135deg, rgba(39,174,96,0.15), rgba(39,174,96,0.05)); border: 1px solid rgba(39,174,96,0.3); }
+  .shengyong-item.jishen { background: linear-gradient(135deg, rgba(231,76,60,0.15), rgba(231,76,60,0.05)); border: 1px solid rgba(231,76,60,0.3); }
+  .shengyong-item .label { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .shengyong-item.xiyong .label { color: #2ecc71; }
+  .shengyong-item.jishen .label { color: #e74c3c; }
+  .shengyong-item .wuxing-chars { font-family: 'Noto Serif SC', serif; font-size: 28px; font-weight: 700; letter-spacing: 8px; }
+  .shengyong-item.xiyong .wuxing-chars { color: #2ecc71; }
+  .shengyong-item.jishen .wuxing-chars { color: #e74c3c; }
+  .shengyong-item .desc { font-size: 12px; color: #999; margin-top: 8px; line-height: 1.6; }
+
+  .flow-display { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 15px 0; flex-wrap: wrap; }
+  .flow-char { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; padding: 8px 16px; border-radius: 8px; min-width: 50px; text-align: center; }
+  .flow-char.mu { background: rgba(46,204,113,0.2); color: #2ecc71; border: 1px solid rgba(46,204,113,0.4); }
+  .flow-char.huo { background: rgba(231,76,60,0.2); color: #e74c3c; border: 1px solid rgba(231,76,60,0.4); }
+  .flow-char.tu { background: rgba(241,196,15,0.2); color: #f1c40f; border: 1px solid rgba(241,196,15,0.4); }
+  .flow-char.jin { background: rgba(189,195,199,0.2); color: #bdc3c7; border: 1px solid rgba(189,195,199,0.4); }
+  .flow-char.shui { background: rgba(52,152,219,0.2); color: #3498db; border: 1px solid rgba(52,152,219,0.4); }
+  .flow-arrow { font-size: 20px; color: #d4af37; }
+  .flow-arrow.bad { color: #e74c3c; }
+  .flow-result { text-align: center; font-size: 14px; margin-top: 10px; padding: 12px; border-radius: 6px; font-weight: 700; }
+  .flow-result.bad { background: rgba(231,76,60,0.1); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+  .flow-result.good { background: rgba(46,204,113,0.1); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+  .flow-result.mid { background: rgba(241,196,15,0.1); color: #f1c40f; border: 1px solid rgba(241,196,15,0.3); }
+
+  .score-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px; }
+  .score-table th { background: rgba(212,175,55,0.15); color: #d4af37; padding: 10px 12px; text-align: left; font-weight: 700; border-bottom: 1px solid rgba(212,175,55,0.3); }
+  .score-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #ccc; }
+  .score-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+  .score-badge.good { background: rgba(46,204,113,0.2); color: #2ecc71; }
+  .score-badge.mid { background: rgba(241,196,15,0.2); color: #f1c40f; }
+  .score-badge.bad { background: rgba(231,76,60,0.2); color: #e74c3c; }
+
+  .detail-row { display: flex; margin-bottom: 15px; font-size: 13px; }
+  .detail-row .dim-label { min-width: 130px; font-weight: 700; color: #d4af37; padding-top: 2px; }
+  .detail-row .dim-content { flex: 1; color: #ccc; }
+  .detail-row .dim-content > div { margin-top: 6px; line-height: 1.8; }
+
+  .total-score {
+    text-align: center; padding: 25px;
+    background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.03));
+    border: 1px solid rgba(212,175,55,0.3); border-radius: 10px; margin-top: 20px;
+  }
+  .total-score.bad { background: linear-gradient(135deg, rgba(231,76,60,0.1), rgba(231,76,60,0.03)); border-color: rgba(231,76,60,0.3); }
+  .total-score.mid { background: linear-gradient(135deg, rgba(241,196,15,0.1), rgba(241,196,15,0.03)); border-color: rgba(241,196,15,0.3); }
+  .total-score .score-num { font-family: 'Noto Serif SC', serif; font-size: 56px; font-weight: 900; color: #d4af37; }
+  .total-score.bad .score-num { color: #e74c3c; }
+  .total-score.mid .score-num { color: #f1c40f; }
+  .total-score .score-label { font-size: 14px; color: #ccc; margin-top: 5px; }
+  .total-score .verdict { font-size: 20px; font-weight: 700; color: #d4af37; margin-top: 10px; letter-spacing: 4px; }
+  .total-score.bad .verdict { color: #e74c3c; }
+  .total-score.mid .verdict { color: #f1c40f; }
+
+  .recommend-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 25px; margin-bottom: 18px; position: relative; overflow: hidden;
+  }
+  .recommend-card.best { border-color: rgba(212,175,55,0.5); background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(212,175,55,0.02)); }
+  .recommend-card .rank-badge { position: absolute; top: 15px; right: 15px; font-size: 12px; padding: 4px 12px; border-radius: 15px; font-weight: 700; }
+  .rank-badge.first { background: linear-gradient(135deg, #d4af37, #f4e4bc); color: #1a1a2e; }
+  .rank-badge.second { background: rgba(192,192,192,0.3); color: #ccc; border: 1px solid rgba(192,192,192,0.4); }
+  .rank-badge.third { background: rgba(205,127,50,0.3); color: #cd7f32; border: 1px solid rgba(205,127,50,0.4); }
+  .recommend-name { font-family: 'Noto Serif SC', serif; font-size: 36px; font-weight: 900; color: #f5f5f5; letter-spacing: 10px; margin-bottom: 15px; }
+  .recommend-card.best .recommend-name {
+    background: linear-gradient(135deg, #d4af37, #f4e4bc, #d4af37);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .char-analysis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+  .char-item { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; text-align: center; }
+  .char-item .char { font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 700; margin-bottom: 5px; color: #f5f5f5; }
+  .char-item .char-wuxing { font-size: 12px; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 5px; }
+  .char-wuxing.mu { background: rgba(46,204,113,0.2); color: #2ecc71; }
+  .char-wuxing.huo { background: rgba(231,76,60,0.2); color: #e74c3c; }
+  .char-wuxing.tu { background: rgba(241,196,15,0.2); color: #f1c40f; }
+  .char-wuxing.jin { background: rgba(189,195,199,0.2); color: #bdc3c7; }
+  .char-wuxing.shui { background: rgba(52,152,219,0.2); color: #3498db; }
+  .char-item .char-mean { font-size: 11px; color: #999; line-height: 1.4; }
+  .recommend-desc { font-size: 13px; color: #bbb; line-height: 1.9; margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); }
+  .recommend-desc strong { color: #d4af37; }
+
+  .conclusion-box {
+    background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04));
+    border: 1px solid rgba(212,175,55,0.35); border-radius: 12px; padding: 25px; margin: 20px 0;
+  }
+  .conclusion-box h3 { font-family: 'Noto Serif SC', serif; color: #d4af37; font-size: 18px; margin-bottom: 12px; }
+  .conclusion-box p { font-size: 14px; color: #ddd; line-height: 1.9; margin-bottom: 10px; }
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  .btn-retry {
+    display: block; width: 100%; max-width: 300px; margin: 30px auto 0;
+    padding: 16px; font-size: 16px; font-weight: 700;
+    background: linear-gradient(135deg, #d4af37, #b8941f); color: #1a1a2e;
+    border: none; border-radius: 10px; cursor: pointer; letter-spacing: 4px;
+    font-family: 'Noto Serif SC', serif; transition: all 0.3s;
+  }
+  .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.3); }
+
+  .footer { text-align: center; padding: 30px; color: #666; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
+  .footer .brand { font-family: 'Noto Serif SC', serif; font-size: 16px; color: #d4af37; margin-bottom: 8px; letter-spacing: 4px; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 24px; }
+    .header .name-display { font-size: 32px; letter-spacing: 6px; }
+    .bazi-grid { grid-template-columns: repeat(2, 1fr); }
+    .char-analysis { grid-template-columns: 1fr; }
+    .section { padding: 20px; }
+    .date-row { grid-template-columns: 1fr; }
+    .shengyong-box { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== 输入页 ===== -->
+  <div id="inputPage">
+    <div class="input-header">
+      <div class="subtitle">观复姓名学</div>
+      <h1>姓名学综合诊断</h1>
+      <div class="desc">五行流通 · 八字匹配 · 生肖适配 · 阴阳平衡 · 改名建议</div>
+    </div>
+
+    <div class="input-section">
+      <div class="form-group">
+        <label>姓名<span class="required">*</span></label>
+        <input type="text" id="nameInput" class="form-input" placeholder="请输入2-4字姓名" maxlength="4">
+      </div>
+
+      <div class="form-group">
+        <label>性别<span class="required">*</span></label>
+        <div class="gender-row">
+          <div class="gender-option active" data-gender="男" onclick="selectGender(this)">男</div>
+          <div class="gender-option" data-gender="女" onclick="selectGender(this)">女</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>公历生日<span class="required">*</span></label>
+        <div class="date-row">
+          <select id="yearSelect" class="form-input"></select>
+          <select id="monthSelect" class="form-input"></select>
+          <select id="daySelect" class="form-input"></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>出生时辰<span class="optional">（可选，不知道可不选）</span></label>
+        <select id="hourSelect" class="form-input">
+          <option value="">不选（无时柱）</option>
+          <option value="0">子时（23:00-01:00）</option>
+          <option value="1">丑时（01:00-03:00）</option>
+          <option value="2">寅时（03:00-05:00）</option>
+          <option value="3">卯时（05:00-07:00）</option>
+          <option value="4">辰时（07:00-09:00）</option>
+          <option value="5">巳时（09:00-11:00）</option>
+          <option value="6">午时（11:00-13:00）</option>
+          <option value="7">未时（13:00-15:00）</option>
+          <option value="8">申时（15:00-17:00）</option>
+          <option value="9">酉时（17:00-19:00）</option>
+          <option value="10">戌时（19:00-21:00）</option>
+          <option value="11">亥时（21:00-23:00）</option>
+        </select>
+      </div>
+
+      <button class="btn-analyze" onclick="analyze()">开 始 分 析</button>
+    </div>
+
+    <div class="footer">
+      <div class="brand">观复姓名学</div>
+      <div>五行判断：部首法优先，不在部首中的按康熙字典繁体字笔画个位数定五行</div>
+      <div style="margin-top:8px;">分析结果仅供参考，最终定名请结合个人喜好与家族避讳</div>
+    </div>
+  </div>
+
+  <!-- ===== 报告页 ===== -->
+  <div id="reportPage" class="hidden">
+    <div id="reportContent"></div>
+    <button class="btn-retry" onclick="retry()">重 新 分 析</button>
+    <div class="footer">
+      <div class="brand">观复姓名学</div>
+      <div>本系统基于观复姓名学体系，分析结果仅供参考</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== 数据 =====
+const TIANGAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const DIZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const GAN_WUXING = {'甲':'木','乙':'木','丙':'火','丁':'火','戊':'土','己':'土','庚':'金','辛':'金','壬':'水','癸':'水'};
+const ZHI_WUXING = {'子':'水','丑':'土','寅':'木','卯':'木','辰':'土','巳':'火','午':'火','未':'土','申':'金','酉':'金','戌':'土','亥':'水'};
+const ZHI_SHENGXIAO = {'子':'鼠','丑':'牛','寅':'虎','卯':'兔','辰':'龙','巳':'蛇','午':'马','未':'羊','申':'猴','酉':'鸡','戌':'狗','亥':'猪'};
+const WUXING_CLASS = {'木':'mu','火':'huo','土':'tu','金':'jin','水':'shui'};
+const WUXING_SHENG = {'木':'火','火':'土','土':'金','金':'水','水':'木'};
+const WUXING_KE = {'木':'土','土':'水','水':'火','火':'金','金':'木'};
+
+// 汉字数据库（运行时注入）
+const HANZI_DB = {"一":{"t":"一","s":1},"乙":{"t":"乙","s":1},"二":{"t":"二","s":2},"人":{"t":"人","s":2},"入":{"t":"入","s":2},"八":{"t":"八","s":2},"十":{"t":"十","s":2},"丁":{"t":"丁","s":2},"七":{"t":"七","s":2},"乃":{"t":"乃","s":2},"九":{"t":"九","s":2},"了":{"t":"了","s":2},"力":{"t":"力","s":2},"又":{"t":"又","s":2},"三":{"t":"三","s":3},"上":{"t":"上","s":3},"下":{"t":"下","s":3},"个":{"t":"個","s":10},"久":{"t":"久","s":3},"么":{"t":"麼","s":14},"之":{"t":"之","s":4},"子":{"t":"子","s":3},"小":{"t":"小","s":3},"山":{"t":"山","s":3},"川":{"t":"川","s":3},"工":{"t":"工","s":3},"己":{"t":"己","s":3},"已":{"t":"已","s":3},"巳":{"t":"巳","s":3},"巾":{"t":"巾","s":3},"千":{"t":"千","s":3},"夕":{"t":"夕","s":3},"大":{"t":"大","s":3},"女":{"t":"女","s":3},"寸":{"t":"寸","s":3},"丈":{"t":"丈","s":3},"万":{"t":"萬","s":15},"与":{"t":"與","s":14},"才":{"t":"才","s":3},"弋":{"t":"弋","s":3},"四":{"t":"四","s":5},"五":{"t":"五","s":4},"六":{"t":"六","s":4},"百":{"t":"百","s":6},"亿":{"t":"億","s":15},"不":{"t":"不","s":4},"中":{"t":"中","s":4},"丰":{"t":"豐","s":18},"丹":{"t":"丹","s":4},"为":{"t":"為","s":12},"主":{"t":"主","s":5},"乎":{"t":"乎","s":5},"乘":{"t":"乘","s":10},"也":{"t":"也","s":3},"习":{"t":"習","s":11},"乡":{"t":"鄉","s":17},"书":{"t":"書","s":10},"予":{"t":"予","s":4},"争":{"t":"爭","s":8},"云":{"t":"雲","s":12},"互":{"t":"互","s":4},"井":{"t":"井","s":4},"亘":{"t":"亙","s":6},"些":{"t":"些","s":8},"亚":{"t":"亞","s":8},"亡":{"t":"亡","s":3},"亢":{"t":"亢","s":4},"交":{"t":"交","s":6},"亨":{"t":"亨","s":7},"享":{"t":"享","s":8},"京":{"t":"京","s":8},"亭":{"t":"亭","s":9},"亮":{"t":"亮","s":9},"仁":{"t":"仁","s":4},"仍":{"t":"仍","s":4},"什":{"t":"什","s":4},"仆":{"t":"僕","s":14},"仇":{"t":"仇","s":4},"今":{"t":"今","s":4},"介":{"t":"介","s":4},"从":{"t":"從","s":11},"仑":{"t":"侖","s":8},"以":{"t":"以","s":5},"付":{"t":"付","s":5},"仙":{"t":"仙","s":5},"仡":{"t":"仡","s":5},"仪":{"t":"儀","s":15},"们":{"t":"們","s":10},"价":{"t":"價","s":17},"众":{"t":"眾","s":11},"优":{"t":"優","s":17},"会":{"t":"會","s":13},"伞":{"t":"傘","s":12},"伟":{"t":"偉","s":11},"传":{"t":"傳","s":13},"伤":{"t":"傷","s":13},"伦":{"t":"倫","s":10},"伪":{"t":"偽","s":14},"伯":{"t":"伯","s":7},"估":{"t":"估","s":7},"体":{"t":"體","s":23},"余":{"t":"餘","s":16},"佛":{"t":"佛","s":7},"作":{"t":"作","s":7},"佝":{"t":"佝","s":7},"佞":{"t":"佞","s":7},"位":{"t":"位","s":7},"低":{"t":"低","s":7},"住":{"t":"住","s":7},"佐":{"t":"佐","s":7},"佑":{"t":"佑","s":7},"何":{"t":"何","s":7},"佗":{"t":"佗","s":7},"佚":{"t":"佚","s":7},"世":{"t":"世","s":5},"丘":{"t":"丘","s":5},"丙":{"t":"丙","s":5},"左":{"t":"左","s":5},"右":{"t":"右","s":5},"布":{"t":"布","s":5},"平":{"t":"平","s":5},"幼":{"t":"幼","s":5},"幽":{"t":"幽","s":9},"广":{"t":"廣","s":15},"庄":{"t":"莊","s":13},"庆":{"t":"慶","s":15},"庐":{"t":"廬","s":19},"应":{"t":"應","s":17},"底":{"t":"底","s":8},"店":{"t":"店","s":8},"庙":{"t":"廟","s":15},"庚":{"t":"庚","s":8},"府":{"t":"府","s":8},"度":{"t":"度","s":9},"庭":{"t":"庭","s":10},"座":{"t":"座","s":10},"库":{"t":"庫","s":10},"康":{"t":"康","s":11},"庸":{"t":"庸","s":11},"廉":{"t":"廉","s":13},"廊":{"t":"廊","s":13},"廖":{"t":"廖","s":14},"廒":{"t":"廒","s":14},"廓":{"t":"廓","s":14},"愿":{"t":"願","s":19},"厌":{"t":"厭","s":14},"原":{"t":"原","s":10},"厢":{"t":"廂","s":12},"厦":{"t":"廈","s":12},"厨":{"t":"廚","s":15},"厩":{"t":"廄","s":13},"厮":{"t":"廝","s":14},"县":{"t":"縣","s":16},"叁":{"t":"參","s":11},"参":{"t":"參","s":11},"双":{"t":"雙","s":18},"发":{"t":"發","s":12},"变":{"t":"變","s":23},"只":{"t":"隻","s":10},"可":{"t":"可","s":5},"台":{"t":"臺","s":14},"叶":{"t":"葉","s":15},"号":{"t":"號","s":13},"司":{"t":"司","s":5},"叹":{"t":"嘆","s":14},"叫":{"t":"叫","s":5},"召":{"t":"召","s":5},"叭":{"t":"叭","s":5},"叮":{"t":"叮","s":5},"叱":{"t":"叱","s":5},"史":{"t":"史","s":5},"安":{"t":"安","s":6},"昂":{"t":"昂","s":8},"奥":{"t":"奧","s":13},"柏":{"t":"柏","s":9},"邦":{"t":"邦","s":11},"宝":{"t":"寶","s":20},"保":{"t":"保","s":9},"贝":{"t":"貝","s":7},"倍":{"t":"倍","s":10},"本":{"t":"本","s":5},"必":{"t":"必","s":5},"碧":{"t":"碧","s":14},"璧":{"t":"璧","s":18},"彬":{"t":"彬","s":11},"斌":{"t":"斌","s":11},"冰":{"t":"冰","s":6},"秉":{"t":"秉","s":8},"炳":{"t":"炳","s":9},"博":{"t":"博","s":12},"卜":{"t":"卜","s":2},"步":{"t":"步","s":7},"财":{"t":"財","s":10},"灿":{"t":"燦","s":17},"苍":{"t":"蒼","s":16},"策":{"t":"策","s":12},"层":{"t":"層","s":15},"茶":{"t":"茶","s":12},"昌":{"t":"昌","s":8},"长":{"t":"長","s":8},"常":{"t":"常","s":11},"超":{"t":"超","s":12},"朝":{"t":"朝","s":12},"辰":{"t":"辰","s":7},"晨":{"t":"晨","s":11},"成":{"t":"成","s":7},"承":{"t":"承","s":8},"城":{"t":"城","s":10},"程":{"t":"程","s":12},"池":{"t":"池","s":7},"驰":{"t":"馳","s":13},"冲":{"t":"沖","s":8},"崇":{"t":"崇","s":11},"宠":{"t":"寵","s":19},"畴":{"t":"疇","s":19},"楚":{"t":"楚","s":13},"春":{"t":"春","s":9},"纯":{"t":"純","s":10},"慈":{"t":"慈","s":14},"聪":{"t":"聰","s":17},"翠":{"t":"翠","s":14},"村":{"t":"村","s":7},"存":{"t":"存","s":6},"达":{"t":"達","s":16},"代":{"t":"代","s":5},"岱":{"t":"岱","s":8},"当":{"t":"當","s":13},"党":{"t":"黨","s":20},"道":{"t":"道","s":16},"得":{"t":"得","s":11},"德":{"t":"德","s":15},"登":{"t":"登","s":12},"迪":{"t":"迪","s":12},"典":{"t":"典","s":8},"殿":{"t":"殿","s":13},"雕":{"t":"彫","s":11},"定":{"t":"定","s":8},"东":{"t":"東","s":8},"冬":{"t":"冬","s":5},"栋":{"t":"棟","s":12},"斗":{"t":"鬥","s":10},"杜":{"t":"杜","s":7},"端":{"t":"端","s":14},"段":{"t":"段","s":9},"敦":{"t":"敦","s":12},"多":{"t":"多","s":6},"朵":{"t":"朵","s":6},"娥":{"t":"娥","s":10},"恩":{"t":"恩","s":10},"儿":{"t":"兒","s":8},"尔":{"t":"爾","s":14},"法":{"t":"法","s":9},"帆":{"t":"帆","s":6},"凡":{"t":"凡","s":3},"方":{"t":"方","s":4},"芳":{"t":"芳","s":10},"飞":{"t":"飛","s":9},"菲":{"t":"菲","s":14},"芬":{"t":"芬","s":10},"风":{"t":"風","s":9},"峰":{"t":"峰","s":10},"锋":{"t":"鋒","s":15},"凤":{"t":"鳳","s":14},"夫":{"t":"夫","s":4},"福":{"t":"福","s":14},"甫":{"t":"甫","s":7},"富":{"t":"富","s":12},"甘":{"t":"甘","s":5},"刚":{"t":"剛","s":10},"高":{"t":"高","s":10},"戈":{"t":"戈","s":4},"歌":{"t":"歌","s":14},"阁":{"t":"閣","s":14},"革":{"t":"革","s":9},"格":{"t":"格","s":10},"根":{"t":"根","s":10},"功":{"t":"功","s":5},"公":{"t":"公","s":4},"宫":{"t":"宮","s":10},"恭":{"t":"恭","s":10},"共":{"t":"共","s":6},"贡":{"t":"貢","s":10},"古":{"t":"古","s":5},"谷":{"t":"穀","s":15},"股":{"t":"股","s":10},"故":{"t":"故","s":9},"顾":{"t":"顧","s":21},"瓜":{"t":"瓜","s":5},"挂":{"t":"掛","s":12},"乖":{"t":"乖","s":8},"观":{"t":"觀","s":24},"官":{"t":"官","s":8},"冠":{"t":"冠","s":9},"光":{"t":"光","s":6},"归":{"t":"歸","s":18},"贵":{"t":"貴","s":12},"桂":{"t":"桂","s":10},"国":{"t":"國","s":11},"果":{"t":"果","s":8},"海":{"t":"海","s":11},"含":{"t":"含","s":7},"寒":{"t":"寒","s":12},"汉":{"t":"漢","s":15},"翰":{"t":"翰","s":16},"航":{"t":"航","s":10},"豪":{"t":"豪","s":14},"好":{"t":"好","s":6},"浩":{"t":"浩","s":11},"昊":{"t":"昊","s":8},"皓":{"t":"皓","s":12},"合":{"t":"合","s":6},"和":{"t":"和","s":8},"河":{"t":"河","s":9},"贺":{"t":"賀","s":12},"鹤":{"t":"鶴","s":21},"恒":{"t":"恆","s":10},"弘":{"t":"弘","s":5},"红":{"t":"紅","s":9},"宏":{"t":"宏","s":7},"洪":{"t":"洪","s":10},"虹":{"t":"虹","s":9},"鸿":{"t":"鴻","s":17},"厚":{"t":"厚","s":9},"华":{"t":"華","s":14},"怀":{"t":"懷","s":20},"欢":{"t":"歡","s":22},"环":{"t":"環","s":18},"焕":{"t":"煥","s":13},"辉":{"t":"輝","s":15},"回":{"t":"回","s":6},"惠":{"t":"惠","s":12},"慧":{"t":"慧","s":15},"卉":{"t":"卉","s":5},"汇":{"t":"匯","s":13},"火":{"t":"火","s":4},"或":{"t":"或","s":8},"获":{"t":"獲","s":18},"机":{"t":"機","s":16},"积":{"t":"積","s":16},"基":{"t":"基","s":11},"吉":{"t":"吉","s":6},"极":{"t":"極","s":13},"即":{"t":"即","s":7},"集":{"t":"集","s":12},"籍":{"t":"籍","s":20},"几":{"t":"幾","s":12},"纪":{"t":"紀","s":9},"济":{"t":"濟","s":18},"继":{"t":"繼","s":20},"家":{"t":"家","s":10},"嘉":{"t":"嘉","s":14},"甲":{"t":"甲","s":5},"坚":{"t":"堅","s":11},"间":{"t":"間","s":12},"兼":{"t":"兼","s":10},"建":{"t":"建","s":9},"剑":{"t":"劍","s":15},"健":{"t":"健","s":11},"渐":{"t":"漸","s":15},"鉴":{"t":"鑒","s":22},"江":{"t":"江","s":7},"姜":{"t":"姜","s":9},"将":{"t":"將","s":11},"骄":{"t":"驕","s":22},"角":{"t":"角","s":7},"阶":{"t":"階","s":17},"节":{"t":"節","s":15},"杰":{"t":"傑","s":12},"洁":{"t":"潔","s":16},"结":{"t":"結","s":12},"金":{"t":"金","s":8},"津":{"t":"津","s":10},"锦":{"t":"錦","s":16},"谨":{"t":"謹","s":18},"进":{"t":"進","s":15},"晋":{"t":"晉","s":10},"经":{"t":"經","s":13},"荆":{"t":"荊","s":12},"景":{"t":"景","s":12},"静":{"t":"靜","s":16},"镜":{"t":"鏡","s":19},"炯":{"t":"炯","s":9},"酒":{"t":"酒","s":10},"旧":{"t":"舊","s":18},"居":{"t":"居","s":8},"驹":{"t":"駒","s":15},"举":{"t":"舉","s":16},"巨":{"t":"巨","s":5},"句":{"t":"句","s":5},"聚":{"t":"聚","s":14},"娟":{"t":"娟","s":10},"卷":{"t":"捲","s":8},"珏":{"t":"玨","s":9},"觉":{"t":"覺","s":20},"绝":{"t":"絕","s":12},"均":{"t":"均","s":7},"君":{"t":"君","s":7},"俊":{"t":"俊","s":9},"骏":{"t":"駿","s":17},"开":{"t":"開","s":12},"凯":{"t":"凱","s":12},"柯":{"t":"柯","s":9},"科":{"t":"科","s":9},"克":{"t":"克","s":7},"客":{"t":"客","s":9},"肯":{"t":"肯","s":10},"空":{"t":"空","s":8},"孔":{"t":"孔","s":4},"口":{"t":"口","s":3},"苦":{"t":"苦","s":11},"宽":{"t":"寬","s":15},"矿":{"t":"礦","s":20},"昆":{"t":"昆","s":8},"琨":{"t":"琨","s":13},"阔":{"t":"闊","s":17},"来":{"t":"來","s":8},"兰":{"t":"蘭","s":23},"岚":{"t":"嵐","s":12},"蓝":{"t":"藍","s":20},"览":{"t":"覽","s":22},"郎":{"t":"郎","s":13},"朗":{"t":"朗","s":11},"浪":{"t":"浪","s":11},"老":{"t":"老","s":6},"乐":{"t":"樂","s":15},"雷":{"t":"雷","s":13},"磊":{"t":"磊","s":15},"类":{"t":"類","s":21},"冷":{"t":"冷","s":7},"梨":{"t":"梨","s":11},"礼":{"t":"禮","s":18},"里":{"t":"裡","s":13},"理":{"t":"理","s":12},"立":{"t":"立","s":5},"丽":{"t":"麗","s":19},"利":{"t":"利","s":7},"连":{"t":"連","s":14},"莲":{"t":"蓮","s":17},"联":{"t":"聯","s":17},"良":{"t":"良","s":7},"凉":{"t":"涼","s":12},"梁":{"t":"梁","s":11},"辽":{"t":"遼","s":19},"烈":{"t":"烈","s":10},"林":{"t":"林","s":8},"临":{"t":"臨","s":17},"琳":{"t":"琳","s":13},"霖":{"t":"霖","s":16},"灵":{"t":"靈","s":24},"岭":{"t":"嶺","s":17},"令":{"t":"令","s":5},"留":{"t":"留","s":10},"柳":{"t":"柳","s":9},"龙":{"t":"龍","s":16},"隆":{"t":"隆","s":17},"楼":{"t":"樓","s":15},"卢":{"t":"盧","s":16},"鲁":{"t":"魯","s":15},"陆":{"t":"陸","s":16},"录":{"t":"錄","s":16},"鹿":{"t":"鹿","s":11},"路":{"t":"路","s":13},"璐":{"t":"璐","s":17},"鹭":{"t":"鷺","s":24},"轮":{"t":"輪","s":15},"论":{"t":"論","s":15},"罗":{"t":"羅","s":20},"洛":{"t":"洛","s":10},"骆":{"t":"駱","s":16},"吕":{"t":"呂","s":7},"律":{"t":"律","s":9},"绿":{"t":"綠","s":14},"峦":{"t":"巒","s":22},"鸾":{"t":"鸞","s":30},"马":{"t":"馬","s":10},"玛":{"t":"瑪","s":15},"迈":{"t":"邁","s":20},"麦":{"t":"麥","s":11},"满":{"t":"滿","s":15},"曼":{"t":"曼","s":11},"茂":{"t":"茂","s":11},"贸":{"t":"貿","s":12},"梅":{"t":"梅","s":11},"美":{"t":"美","s":9},"萌":{"t":"萌","s":14},"蒙":{"t":"蒙","s":16},"孟":{"t":"孟","s":8},"梦":{"t":"夢","s":14},"弥":{"t":"彌","s":17},"米":{"t":"米","s":6},"密":{"t":"密","s":11},"绵":{"t":"綿","s":14},"苗":{"t":"苗","s":11},"妙":{"t":"妙","s":7},"民":{"t":"民","s":5},"敏":{"t":"敏","s":11},"明":{"t":"明","s":8},"鸣":{"t":"鳴","s":14},"铭":{"t":"銘","s":14},"模":{"t":"模","s":15},"磨":{"t":"磨","s":16},"墨":{"t":"墨","s":15},"谋":{"t":"謀","s":16},"母":{"t":"母","s":5},"木":{"t":"木","s":4},"目":{"t":"目","s":5},"慕":{"t":"慕","s":15},"穆":{"t":"穆","s":16},"娜":{"t":"娜","s":10},"耐":{"t":"耐","s":9},"南":{"t":"南","s":9},"楠":{"t":"楠","s":13},"能":{"t":"能","s":12},"妮":{"t":"妮","s":8},"年":{"t":"年","s":6},"念":{"t":"念","s":8},"宁":{"t":"寧","s":14},"牛":{"t":"牛","s":4},"农":{"t":"農","s":13},"努":{"t":"努","s":7},"暖":{"t":"暖","s":13},"欧":{"t":"歐","s":15},"鸥":{"t":"鷗","s":22},"帕":{"t":"帕","s":8},"排":{"t":"排","s":12},"派":{"t":"派","s":10},"攀":{"t":"攀","s":19},"盘":{"t":"盤","s":15},"庞":{"t":"龐","s":19},"培":{"t":"培","s":11},"佩":{"t":"佩","s":8},"朋":{"t":"朋","s":8},"鹏":{"t":"鵬","s":19},"批":{"t":"批","s":8},"皮":{"t":"皮","s":5},"匹":{"t":"匹","s":4},"偏":{"t":"偏","s":11},"品":{"t":"品","s":9},"萍":{"t":"萍","s":14},"珀":{"t":"珀","s":10},"普":{"t":"普","s":12},"谱":{"t":"譜","s":20},"齐":{"t":"齊","s":14},"奇":{"t":"奇","s":8},"祈":{"t":"祈","s":9},"麒":{"t":"麒","s":19},"启":{"t":"啟","s":11},"起":{"t":"起","s":10},"气":{"t":"氣","s":10},"谦":{"t":"謙","s":17},"前":{"t":"前","s":9},"钱":{"t":"錢","s":16},"潜":{"t":"潛","s":16},"强":{"t":"強","s":11},"乔":{"t":"喬","s":12},"巧":{"t":"巧","s":5},"俏":{"t":"俏","s":9},"琴":{"t":"琴","s":13},"青":{"t":"青","s":8},"清":{"t":"清","s":12},"卿":{"t":"卿","s":11},"琼":{"t":"瓊","s":20},"秋":{"t":"秋","s":9},"求":{"t":"求","s":7},"球":{"t":"球","s":12},"区":{"t":"區","s":11},"曲":{"t":"曲","s":6},"取":{"t":"取","s":8},"去":{"t":"去","s":5},"全":{"t":"全","s":6},"泉":{"t":"泉","s":9},"权":{"t":"權","s":22},"群":{"t":"群","s":13},"然":{"t":"然","s":12},"冉":{"t":"冉","s":5},"让":{"t":"讓","s":24},"饶":{"t":"饒","s":21},"热":{"t":"熱","s":15},"忍":{"t":"忍","s":7},"任":{"t":"任","s":6},"日":{"t":"日","s":4},"荣":{"t":"榮","s":14},"容":{"t":"容","s":10},"柔":{"t":"柔","s":9},"如":{"t":"如","s":6},"儒":{"t":"儒","s":16},"瑞":{"t":"瑞","s":14},"睿":{"t":"睿","s":14},"润":{"t":"潤","s":16},"若":{"t":"若","s":11},"撒":{"t":"撒","s":16},"萨":{"t":"薩","s":19},"赛":{"t":"賽","s":17},"森":{"t":"森","s":12},"沙":{"t":"沙","s":8},"莎":{"t":"莎","s":13},"善":{"t":"善","s":12},"尚":{"t":"尚","s":8},"韶":{"t":"韶","s":14},"少":{"t":"少","s":4},"绍":{"t":"紹","s":11},"申":{"t":"申","s":5},"身":{"t":"身","s":7},"深":{"t":"深","s":12},"神":{"t":"神","s":10},"审":{"t":"審","s":15},"慎":{"t":"慎","s":14},"升":{"t":"昇","s":8},"生":{"t":"生","s":5},"声":{"t":"聲","s":17},"胜":{"t":"勝","s":12},"圣":{"t":"聖","s":13},"师":{"t":"師","s":10},"诗":{"t":"詩","s":13},"施":{"t":"施","s":9},"石":{"t":"石","s":5},"时":{"t":"時","s":10},"实":{"t":"實","s":15},"识":{"t":"識","s":19},"市":{"t":"市","s":5},"势":{"t":"勢","s":13},"事":{"t":"事","s":8},"适":{"t":"適","s":18},"守":{"t":"守","s":6},"寿":{"t":"壽","s":14},"叔":{"t":"叔","s":8},"殊":{"t":"殊","s":10},"舒":{"t":"舒","s":12},"淑":{"t":"淑","s":12},"疏":{"t":"疏","s":12},"术":{"t":"術","s":11},"树":{"t":"樹","s":16},"水":{"t":"水","s":4},"顺":{"t":"順","s":12},"硕":{"t":"碩","s":14},"思":{"t":"思","s":9},"斯":{"t":"斯","s":12},"松":{"t":"松","s":8},"苏":{"t":"蘇","s":22},"素":{"t":"素","s":10},"宿":{"t":"宿","s":11},"肃":{"t":"肅","s":13},"酸":{"t":"酸","s":14},"算":{"t":"算","s":14},"虽":{"t":"雖","s":17},"随":{"t":"隨","s":21},"岁":{"t":"歲","s":13},"孙":{"t":"孫","s":10},"索":{"t":"索","s":10},"他":{"t":"他","s":5},"她":{"t":"她","s":6},"太":{"t":"太","s":4},"泰":{"t":"泰","s":9},"谈":{"t":"談","s":15},"谭":{"t":"譚","s":19},"汤":{"t":"湯","s":13},"堂":{"t":"堂","s":11},"涛":{"t":"濤","s":18},"韬":{"t":"韜","s":19},"桃":{"t":"桃","s":10},"腾":{"t":"騰","s":20},"提":{"t":"提","s":13},"题":{"t":"題","s":18},"天":{"t":"天","s":4},"田":{"t":"田","s":5},"条":{"t":"條","s":11},"铁":{"t":"鐵","s":21},"听":{"t":"聽","s":22},"廷":{"t":"廷","s":7},"通":{"t":"通","s":14},"同":{"t":"同","s":6},"桐":{"t":"桐","s":10},"童":{"t":"童","s":12},"统":{"t":"統","s":12},"头":{"t":"頭","s":16},"图":{"t":"圖","s":14},"土":{"t":"土","s":3},"团":{"t":"團","s":14},"推":{"t":"推","s":12},"托":{"t":"託","s":7},"脱":{"t":"脫","s":13},"陀":{"t":"陀","s":13},"瓦":{"t":"瓦","s":5},"外":{"t":"外","s":5},"湾":{"t":"灣","s":26},"完":{"t":"完","s":7},"玩":{"t":"玩","s":9},"晚":{"t":"晚","s":11},"王":{"t":"王","s":4},"网":{"t":"網","s":14},"往":{"t":"往","s":8},"望":{"t":"望","s":11},"威":{"t":"威","s":9},"微":{"t":"微","s":13},"韦":{"t":"韋","s":9},"违":{"t":"違","s":16},"唯":{"t":"唯","s":11},"维":{"t":"維","s":14},"尾":{"t":"尾","s":7},"纬":{"t":"緯","s":15},"卫":{"t":"衛","s":15},"未":{"t":"未","s":5},"温":{"t":"溫","s":14},"文":{"t":"文","s":4},"闻":{"t":"聞","s":14},"问":{"t":"問","s":11},"翁":{"t":"翁","s":10},"沃":{"t":"沃","s":8},"无":{"t":"無","s":12},"吾":{"t":"吾","s":7},"吴":{"t":"吳","s":7},"武":{"t":"武","s":8},"务":{"t":"務","s":11},"物":{"t":"物","s":8},"悟":{"t":"悟","s":11},"西":{"t":"西","s":6},"希":{"t":"希","s":7},"息":{"t":"息","s":10},"惜":{"t":"惜","s":12},"熙":{"t":"熙","s":13},"喜":{"t":"喜","s":12},"细":{"t":"細","s":11},"虾":{"t":"蝦","s":15},"霞":{"t":"霞","s":17},"夏":{"t":"夏","s":10},"先":{"t":"先","s":6},"鲜":{"t":"鮮","s":17},"贤":{"t":"賢","s":15},"显":{"t":"顯","s":23},"现":{"t":"現","s":12},"线":{"t":"線","s":15},"相":{"t":"相","s":9},"香":{"t":"香","s":9},"湘":{"t":"湘","s":13},"祥":{"t":"祥","s":11},"翔":{"t":"翔","s":12},"想":{"t":"想","s":13},"向":{"t":"向","s":6},"项":{"t":"項","s":12},"象":{"t":"象","s":12},"萧":{"t":"蕭","s":18},"晓":{"t":"曉","s":16},"孝":{"t":"孝","s":7},"肖":{"t":"肖","s":9},"效":{"t":"效","s":10},"啸":{"t":"嘯","s":16},"协":{"t":"協","s":8},"携":{"t":"攜","s":22},"写":{"t":"寫","s":15},"谢":{"t":"謝","s":17},"心":{"t":"心","s":4},"辛":{"t":"辛","s":7},"新":{"t":"新","s":13},"信":{"t":"信","s":9},"星":{"t":"星","s":9},"兴":{"t":"興","s":16},"刑":{"t":"刑","s":6},"行":{"t":"行","s":6},"形":{"t":"形","s":7},"型":{"t":"型","s":9},"醒":{"t":"醒","s":16},"杏":{"t":"杏","s":7},"姓":{"t":"姓","s":8},"幸":{"t":"幸","s":8},"雄":{"t":"雄","s":12},"熊":{"t":"熊","s":14},"休":{"t":"休","s":6},"修":{"t":"修","s":10},"秀":{"t":"秀","s":7},"虚":{"t":"虛","s":12},"许":{"t":"許","s":11},"序":{"t":"序","s":7},"绪":{"t":"緒","s":15},"续":{"t":"續","s":21},"轩":{"t":"軒","s":10},"宣":{"t":"宣","s":9},"旋":{"t":"旋","s":11},"选":{"t":"選","s":19},"学":{"t":"學","s":16},"雪":{"t":"雪","s":11},"勋":{"t":"勳","s":16},"寻":{"t":"尋","s":12},"训":{"t":"訓","s":10},"讯":{"t":"訊","s":10},"迅":{"t":"迅","s":10},"压":{"t":"壓","s":17},"岩":{"t":"巖","s":23},"炎":{"t":"炎","s":8},"研":{"t":"研","s":11},"颜":{"t":"顏","s":18},"衍":{"t":"衍","s":9},"彦":{"t":"彥","s":9},"艳":{"t":"豔","s":28},"燕":{"t":"燕","s":16},"央":{"t":"央","s":5},"阳":{"t":"陽","s":17},"杨":{"t":"楊","s":13},"洋":{"t":"洋","s":10},"仰":{"t":"仰","s":6},"养":{"t":"養","s":15},"尧":{"t":"堯","s":12},"姚":{"t":"姚","s":9},"瑶":{"t":"瑤","s":15},"耀":{"t":"耀","s":20},"业":{"t":"業","s":13},"页":{"t":"頁","s":9},"伊":{"t":"伊","s":6},"衣":{"t":"衣","s":6},"医":{"t":"醫","s":18},"依":{"t":"依","s":8},"宜":{"t":"宜","s":8},"怡":{"t":"怡","s":9},"贻":{"t":"貽","s":12},"矣":{"t":"矣","s":7},"义":{"t":"義","s":13},"艺":{"t":"藝","s":21},"议":{"t":"議","s":20},"亦":{"t":"亦","s":6},"异":{"t":"異","s":12},"易":{"t":"易","s":8},"翼":{"t":"翼","s":18},"因":{"t":"因","s":6},"阴":{"t":"陰","s":16},"音":{"t":"音","s":9},"银":{"t":"銀","s":14},"寅":{"t":"寅","s":11},"引":{"t":"引","s":4},"印":{"t":"印","s":6},"英":{"t":"英","s":11},"樱":{"t":"櫻","s":21},"鹰":{"t":"鷹","s":24},"迎":{"t":"迎","s":11},"盈":{"t":"盈","s":9},"营":{"t":"營","s":17},"颖":{"t":"穎","s":16},"影":{"t":"影","s":15},"映":{"t":"映","s":9},"永":{"t":"永","s":5},"咏":{"t":"詠","s":13},"勇":{"t":"勇","s":9},"涌":{"t":"湧","s":13},"用":{"t":"用","s":5},"尤":{"t":"尤","s":4},"由":{"t":"由","s":5},"犹":{"t":"猶","s":13},"油":{"t":"油","s":9},"游":{"t":"遊","s":13},"友":{"t":"友","s":4},"有":{"t":"有","s":6},"宇":{"t":"宇","s":6},"羽":{"t":"羽","s":6},"雨":{"t":"雨","s":8},"语":{"t":"語","s":14},"玉":{"t":"玉","s":5},"育":{"t":"育","s":10},"郁":{"t":"鬱","s":29},"遇":{"t":"遇","s":16},"誉":{"t":"譽","s":21},"元":{"t":"元","s":4},"圆":{"t":"圓","s":13},"援":{"t":"援","s":13},"缘":{"t":"緣","s":15},"远":{"t":"遠","s":17},"院":{"t":"院","s":15},"曰":{"t":"曰","s":4},"月":{"t":"月","s":4},"岳":{"t":"嶽","s":17},"悦":{"t":"悅","s":11},"阅":{"t":"閱","s":15},"允":{"t":"允","s":4},"运":{"t":"運","s":16},"韵":{"t":"韻","s":19},"杂":{"t":"雜","s":18},"再":{"t":"再","s":6},"在":{"t":"在","s":6},"赞":{"t":"贊","s":19},"葬":{"t":"葬","s":15},"早":{"t":"早","s":6},"泽":{"t":"澤","s":17},"责":{"t":"責","s":11},"择":{"t":"擇","s":17},"则":{"t":"則","s":9},"增":{"t":"增","s":15},"扎":{"t":"扎","s":5},"展":{"t":"展","s":10},"占":{"t":"占","s":5},"战":{"t":"戰","s":16},"张":{"t":"張","s":11},"章":{"t":"章","s":11},"彰":{"t":"彰","s":14},"昭":{"t":"昭","s":9},"找":{"t":"找","s":8},"照":{"t":"照","s":13},"哲":{"t":"哲","s":10},"者":{"t":"者","s":10},"这":{"t":"這","s":14},"珍":{"t":"珍","s":10},"真":{"t":"真","s":10},"箴":{"t":"箴","s":15},"阵":{"t":"陣","s":15},"振":{"t":"振","s":11},"镇":{"t":"鎮","s":18},"征":{"t":"徵","s":15},"正":{"t":"正","s":5},"政":{"t":"政","s":8},"支":{"t":"支","s":4},"知":{"t":"知","s":8},"织":{"t":"織","s":18},"执":{"t":"執","s":11},"直":{"t":"直","s":8},"值":{"t":"值","s":10},"职":{"t":"職","s":18},"植":{"t":"植","s":12},"止":{"t":"止","s":4},"旨":{"t":"旨","s":6},"纸":{"t":"紙","s":10},"志":{"t":"志","s":7},"制":{"t":"製","s":14},"质":{"t":"質","s":15},"治":{"t":"治","s":9},"致":{"t":"致","s":10},"智":{"t":"智","s":12},"忠":{"t":"忠","s":8},"终":{"t":"終","s":11},"钟":{"t":"鐘","s":17},"种":{"t":"種","s":14},"重":{"t":"重","s":9},"周":{"t":"周","s":8},"洲":{"t":"洲","s":10},"珠":{"t":"珠","s":11},"诸":{"t":"諸","s":16},"竹":{"t":"竹","s":6},"烛":{"t":"燭","s":17},"助":{"t":"助","s":7},"注":{"t":"注","s":9},"祝":{"t":"祝","s":10},"铸":{"t":"鑄","s":22},"专":{"t":"專","s":11},"转":{"t":"轉","s":18},"妆":{"t":"妝","s":7},"装":{"t":"裝","s":13},"壮":{"t":"壯","s":7},"状":{"t":"狀","s":8},"追":{"t":"追","s":14},"准":{"t":"準","s":14},"卓":{"t":"卓","s":8},"拙":{"t":"拙","s":9},"灼":{"t":"灼","s":7},"资":{"t":"資","s":13},"姿":{"t":"姿","s":9},"滋":{"t":"滋","s":13},"紫":{"t":"紫","s":11},"字":{"t":"字","s":6},"自":{"t":"自","s":6},"宗":{"t":"宗","s":8},"综":{"t":"綜","s":14},"总":{"t":"總","s":17},"纵":{"t":"縱","s":17},"走":{"t":"走","s":7},"奏":{"t":"奏","s":9},"租":{"t":"租","s":10},"足":{"t":"足","s":7},"族":{"t":"族","s":11},"组":{"t":"組","s":11},"钻":{"t":"鑽","s":27},"最":{"t":"最","s":12},"罪":{"t":"罪","s":14},"坐":{"t":"坐","s":7},"赵":{"t":"趙","s":14},"李":{"t":"李","s":7},"郑":{"t":"鄭","s":19},"冯":{"t":"馮","s":12},"陈":{"t":"陳","s":16},"褚":{"t":"褚","s":15},"蒋":{"t":"蔣","s":17},"沈":{"t":"沈","s":8},"韩":{"t":"韓","s":17},"朱":{"t":"朱","s":6},"秦":{"t":"秦","s":10},"曹":{"t":"曹","s":11},"严":{"t":"嚴","s":20},"魏":{"t":"魏","s":18},"陶":{"t":"陶","s":16},"戚":{"t":"戚","s":11},"邹":{"t":"鄒","s":13},"喻":{"t":"喻","s":12},"窦":{"t":"竇","s":20},"潘":{"t":"潘","s":16},"葛":{"t":"葛","s":15},"奚":{"t":"奚","s":10},"范":{"t":"範","s":15},"彭":{"t":"彭","s":12},"花":{"t":"花","s":10},"俞":{"t":"俞","s":9},"袁":{"t":"袁","s":10},"鲍":{"t":"鮑","s":16},"唐":{"t":"唐","s":10},"费":{"t":"費","s":12},"岑":{"t":"岑","s":7},"薛":{"t":"薛","s":19},"倪":{"t":"倪","s":10},"滕":{"t":"滕","s":14},"殷":{"t":"殷","s":10},"毕":{"t":"畢","s":11},"郝":{"t":"郝","s":14},"邬":{"t":"鄔","s":17},"于":{"t":"於","s":8},"傅":{"t":"傅","s":12},"卞":{"t":"卞","s":4},"伍":{"t":"伍","s":6},"黄":{"t":"黃","s":12},"尹":{"t":"尹","s":4},"邵":{"t":"邵","s":12},"湛":{"t":"湛","s":13},"汪":{"t":"汪","s":8},"祁":{"t":"祁","s":8},"毛":{"t":"毛","s":4},"禹":{"t":"禹","s":9},"狄":{"t":"狄","s":8},"臧":{"t":"臧","s":14},"计":{"t":"計","s":9},"伏":{"t":"伏","s":6},"戴":{"t":"戴","s":18},"宋":{"t":"宋","s":7},"茅":{"t":"茅","s":11},"屈":{"t":"屈","s":8},"董":{"t":"董","s":15},"阮":{"t":"阮","s":12},"闵":{"t":"閔","s":12},"席":{"t":"席","s":10},"季":{"t":"季","s":8},"麻":{"t":"麻","s":11},"贾":{"t":"賈","s":13},"娄":{"t":"婁","s":11},"危":{"t":"危","s":6},"郭":{"t":"郭","s":15},"盛":{"t":"盛","s":12},"刁":{"t":"刁","s":2},"徐":{"t":"徐","s":10},"邱":{"t":"邱","s":12},"蔡":{"t":"蔡","s":17},"樊":{"t":"樊","s":15},"胡":{"t":"胡","s":11},"凌":{"t":"凌","s":10},"霍":{"t":"霍","s":16},"虞":{"t":"虞","s":13},"管":{"t":"管","s":14},"莫":{"t":"莫","s":13},"房":{"t":"房","s":8},"裘":{"t":"裘","s":13},"缪":{"t":"繆","s":17},"干":{"t":"幹","s":11},"解":{"t":"解","s":13},"邓":{"t":"鄧","s":19},"单":{"t":"單","s":12},"杭":{"t":"杭","s":8},"包":{"t":"包","s":5},"崔":{"t":"崔","s":11},"龚":{"t":"龔","s":22},"邢":{"t":"邢","s":11},"滑":{"t":"滑","s":14},"裴":{"t":"裴","s":14},"荀":{"t":"荀","s":12},"羊":{"t":"羊","s":6},"甄":{"t":"甄","s":14},"封":{"t":"封","s":9},"芮":{"t":"芮","s":10},"羿":{"t":"羿","s":9},"储":{"t":"儲","s":18},"靳":{"t":"靳","s":13},"汲":{"t":"汲","s":8},"邴":{"t":"邴","s":12},"巫":{"t":"巫","s":7},"乌":{"t":"烏","s":10},"焦":{"t":"焦","s":12},"巴":{"t":"巴","s":4},"弓":{"t":"弓","s":3},"牧":{"t":"牧","s":8},"车":{"t":"車","s":7},"侯":{"t":"侯","s":9},"班":{"t":"班","s":11},"仲":{"t":"仲","s":6},"栾":{"t":"欒","s":23},"暴":{"t":"暴","s":15},"厉":{"t":"厲","s":15},"戎":{"t":"戎","s":6},"祖":{"t":"祖","s":10},"符":{"t":"符","s":11},"刘":{"t":"劉","s":15},"詹":{"t":"詹","s":13},"束":{"t":"束","s":7},"郜":{"t":"郜","s":14},"黎":{"t":"黎","s":15},"蓟":{"t":"薊","s":19},"薄":{"t":"薄","s":19},"白":{"t":"白","s":5},"蒲":{"t":"蒲","s":16},"鄂":{"t":"鄂","s":16},"咸":{"t":"鹹","s":20},"赖":{"t":"賴","s":21},"蔺":{"t":"藺","s":22},"屠":{"t":"屠","s":11},"胥":{"t":"胥","s":11},"翟":{"t":"翟","s":14},"劳":{"t":"勞","s":12},"姬":{"t":"姬","s":10},"扶":{"t":"扶","s":8},"堵":{"t":"堵","s":12},"宰":{"t":"宰","s":10},"郦":{"t":"酈","s":26},"雍":{"t":"雍","s":13},"却":{"t":"卻","s":9},"璩":{"t":"璩","s":18},"桑":{"t":"桑","s":10},"濮":{"t":"濮","s":18},"边":{"t":"邊","s":22},"扈":{"t":"扈","s":11},"冀":{"t":"冀","s":16},"郏":{"t":"郟","s":14},"浦":{"t":"浦","s":11},"别":{"t":"別","s":7},"晏":{"t":"晏","s":10},"柴":{"t":"柴","s":9},"瞿":{"t":"瞿","s":14},"阎":{"t":"閻","s":16},"充":{"t":"充","s":6},"茹":{"t":"茹","s":12},"宦":{"t":"宦","s":9},"艾":{"t":"艾","s":8},"鱼":{"t":"魚","s":11},"庾":{"t":"庾","s":12},"暨":{"t":"暨","s":16},"衡":{"t":"衡","s":16},"都":{"t":"都","s":16},"耿":{"t":"耿","s":10},"匡":{"t":"匡","s":6},"寇":{"t":"寇","s":11},"禄":{"t":"祿","s":13},"阙":{"t":"闕","s":18},"殳":{"t":"殳","s":4},"蔚":{"t":"蔚","s":17},"越":{"t":"越","s":12},"夔":{"t":"夔","s":23},"巩":{"t":"鞏","s":15},"聂":{"t":"聶","s":18},"晁":{"t":"晁","s":10},"勾":{"t":"勾","s":4},"敖":{"t":"敖","s":11},"融":{"t":"融","s":16},"訾":{"t":"訾","s":12},"阚":{"t":"闞","s":20},"那":{"t":"那","s":11},"简":{"t":"簡","s":18},"曾":{"t":"曾","s":12},"毋":{"t":"毋","s":4},"乜":{"t":"乜","s":2},"鞠":{"t":"鞠","s":17},"须":{"t":"須","s":12},"巢":{"t":"巢","s":11},"关":{"t":"關","s":19},"蒯":{"t":"蒯","s":16},"查":{"t":"查","s":9},"后":{"t":"後","s":9},"竺":{"t":"竺","s":8},"逯":{"t":"逯","s":15},"盖":{"t":"蓋","s":16},"益":{"t":"益","s":10},"桓":{"t":"桓","s":10},"佘":{"t":"佘","s":7},"佴":{"t":"佴","s":8},"赏":{"t":"賞","s":15},"哈":{"t":"哈","s":9},"谯":{"t":"譙","s":19},"笪":{"t":"笪","s":11},"爱":{"t":"愛","s":13},"佟":{"t":"佟","s":7},"扬":{"t":"揚","s":13},"场":{"t":"場","s":12},"肠":{"t":"腸","s":15},"畅":{"t":"暢","s":14},"烫":{"t":"燙","s":16},"荡":{"t":"盪","s":16},"样":{"t":"樣","s":15},"氧":{"t":"氧","s":10},"佯":{"t":"佯","s":8},"徉":{"t":"徉","s":9},"蛘":{"t":"蛘","s":12},"劷":{"t":"劷","s":10},"霷":{"t":"霷","s":21},"諹":{"t":"諹","s":16},"详":{"t":"詳","s":13},"痒":{"t":"癢","s":18},"漾":{"t":"漾","s":15},"鞅":{"t":"鞅","s":11},"怏":{"t":"怏","s":8},"鸯":{"t":"鴦","s":16},"秧":{"t":"秧","s":11},"殃":{"t":"殃","s":9},"泱":{"t":"泱","s":9},"姎":{"t":"姎","s":8},"岟":{"t":"岟","s":8},"抰":{"t":"抰","s":9},"胦":{"t":"胦","s":11},"盎":{"t":"盎","s":10},"按":{"t":"按","s":10},"案":{"t":"案","s":10},"暗":{"t":"暗","s":13},"岸":{"t":"岸","s":8},"胺":{"t":"胺","s":14},"铵":{"t":"銨","s":14},"俺":{"t":"俺","s":10},"埯":{"t":"垵","s":10},"揞":{"t":"揞","s":13},"犴":{"t":"犴","s":7},"豻":{"t":"豻","s":10},"庵":{"t":"庵","s":11},"谙":{"t":"諳","s":16},"鹌":{"t":"鵪","s":19},"黯":{"t":"黯","s":21},"癞":{"t":"癩","s":21},"籁":{"t":"籟","s":22},"濑":{"t":"瀨","s":20},"懒":{"t":"懶","s":20},"缆":{"t":"纜","s":27},"烂":{"t":"爛","s":21},"滥":{"t":"濫","s":18},"篮":{"t":"籃","s":20},"阑":{"t":"闌","s":17},"澜":{"t":"瀾","s":21},"斓":{"t":"斕","s":21},"揽":{"t":"攬","s":21},"柜":{"t":"櫃","s":18},"跪":{"t":"跪","s":13},"瑰":{"t":"瑰","s":14},"硅":{"t":"矽","s":8},"规":{"t":"規","s":11},"闺":{"t":"閨","s":14},"轨":{"t":"軌","s":9},"诡":{"t":"詭","s":13},"癸":{"t":"癸","s":9},"鬼":{"t":"鬼","s":10},"刽":{"t":"劊","s":10},"刿":{"t":"劌","s":15},"桧":{"t":"檜","s":17},"烩":{"t":"燴","s":17},"庋":{"t":"庋","s":7},"匦":{"t":"匭","s":14},"宄":{"t":"宄","s":5},"晷":{"t":"晷","s":12},"簋":{"t":"簋","s":17},"鳜":{"t":"鱖","s":20},"淋":{"t":"淋","s":12},"邻":{"t":"鄰","s":19},"鳞":{"t":"鱗","s":23},"凛":{"t":"凜","s":15},"赁":{"t":"賃","s":13},"吝":{"t":"吝","s":7},"拎":{"t":"拎","s":9},"玲":{"t":"玲","s":10},"菱":{"t":"菱","s":14},"零":{"t":"零","s":13},"龄":{"t":"齡","s":20},"铃":{"t":"鈴","s":13},"伶":{"t":"伶","s":7},"羚":{"t":"羚","s":11},"领":{"t":"領","s":14},"溜":{"t":"溜","s":14},"垄":{"t":"壟","s":19},"搂":{"t":"摟","s":15},"篓":{"t":"簍","s":17},"漏":{"t":"漏","s":15},"陋":{"t":"陋","s":9},"芦":{"t":"蘆","s":22},"炉":{"t":"爐","s":20},"铝":{"t":"鋁","s":15},"旅":{"t":"旅","s":10},"履":{"t":"履","s":15},"虑":{"t":"慮","s":15},"卵":{"t":"卵","s":7},"乱":{"t":"亂","s":13},"掠":{"t":"掠","s":12},"略":{"t":"略","s":11},"络":{"t":"絡","s":12},"妈":{"t":"媽","s":13},"码":{"t":"碼","s":15},"蚂":{"t":"螞","s":16},"骂":{"t":"罵","s":15},"吗":{"t":"嗎","s":13},"埋":{"t":"埋","s":10},"买":{"t":"買","s":12},"卖":{"t":"賣","s":15},"脉":{"t":"脈","s":11},"蛮":{"t":"蠻","s":23},"馒":{"t":"饅","s":20},"瞒":{"t":"瞞","s":17},"慢":{"t":"慢","s":15},"漫":{"t":"漫","s":15},"忙":{"t":"忙","s":7},"芒":{"t":"芒","s":9},"盲":{"t":"盲","s":8},"茫":{"t":"茫","s":12},"猫":{"t":"貓","s":15},"矛":{"t":"矛","s":5},"冒":{"t":"冒","s":9},"帽":{"t":"帽","s":12},"貌":{"t":"貌","s":14},"没":{"t":"沒","s":8},"眉":{"t":"眉","s":9},"媒":{"t":"媒","s":12},"煤":{"t":"煤","s":13},"霉":{"t":"黴","s":23},"每":{"t":"每","s":7},"妹":{"t":"妹","s":8},"媚":{"t":"媚","s":12},"门":{"t":"門","s":8},"闷":{"t":"悶","s":12},"盟":{"t":"盟","s":13},"猛":{"t":"猛","s":12},"迷":{"t":"迷","s":13},"谜":{"t":"謎","s":17},"秘":{"t":"秘","s":10},"蜜":{"t":"蜜","s":14},"棉":{"t":"棉","s":12},"免":{"t":"免","s":7},"勉":{"t":"勉","s":9},"面":{"t":"面","s":9},"秒":{"t":"秒","s":9},"灭":{"t":"滅","s":14},"名":{"t":"名","s":6},"命":{"t":"命","s":8},"谬":{"t":"謬","s":18},"摸":{"t":"摸","s":15},"膜":{"t":"膜","s":15},"魔":{"t":"魔","s":21},"抹":{"t":"抹","s":9},"末":{"t":"末","s":5},"默":{"t":"默","s":16},"沫":{"t":"沫","s":9},"漠":{"t":"漠","s":15},"陌":{"t":"陌","s":14},"亩":{"t":"畝","s":10},"牡":{"t":"牡","s":7},"姆":{"t":"姆","s":8},"墓":{"t":"墓","s":14},"幕":{"t":"幕","s":14},"暮":{"t":"暮","s":15},"拿":{"t":"拿","s":10},"哪":{"t":"哪","s":10},"纳":{"t":"納","s":10},"奶":{"t":"奶","s":5},"男":{"t":"男","s":7},"难":{"t":"難","s":19},"囊":{"t":"囊","s":22},"挠":{"t":"撓","s":16},"脑":{"t":"腦","s":15},"闹":{"t":"鬧","s":15},"恼":{"t":"惱","s":13},"尿":{"t":"尿","s":7},"您":{"t":"您","s":11},"凝":{"t":"凝","s":16},"扭":{"t":"扭","s":8},"纽":{"t":"紐","s":11},"浓":{"t":"濃","s":17},"弄":{"t":"弄","s":7},"奴":{"t":"奴","s":5},"怒":{"t":"怒","s":9},"虐":{"t":"虐","s":9},"挪":{"t":"挪","s":11},"诺":{"t":"諾","s":16},"偶":{"t":"偶","s":11},"怕":{"t":"怕","s":9},"拍":{"t":"拍","s":9},"牌":{"t":"牌","s":12},"旁":{"t":"旁","s":10},"胖":{"t":"胖","s":11},"抛":{"t":"拋","s":9},"跑":{"t":"跑","s":12},"泡":{"t":"泡","s":9},"炮":{"t":"炮","s":9},"赔":{"t":"賠","s":15},"配":{"t":"配","s":10},"喷":{"t":"噴","s":15},"盆":{"t":"盆","s":9},"捧":{"t":"捧","s":12},"披":{"t":"披","s":9},"疲":{"t":"疲","s":10},"屁":{"t":"屁","s":7},"譬":{"t":"譬","s":20},"篇":{"t":"篇","s":15},"骗":{"t":"騙","s":19},"票":{"t":"票","s":11},"拼":{"t":"拼","s":10},"贫":{"t":"貧","s":11},"评":{"t":"評","s":12},"凭":{"t":"憑","s":16},"瓶":{"t":"瓶","s":11},"坡":{"t":"坡","s":8},"泼":{"t":"潑","s":16},"颇":{"t":"頗","s":14},"婆":{"t":"婆","s":11},"破":{"t":"破","s":10},"剖":{"t":"剖","s":10},"扑":{"t":"撲","s":16},"铺":{"t":"鋪","s":15},"妻":{"t":"妻","s":8},"栖":{"t":"棲","s":12},"期":{"t":"期","s":12},"欺":{"t":"欺","s":12},"漆":{"t":"漆","s":15},"骑":{"t":"騎","s":18},"棋":{"t":"棋","s":12},"旗":{"t":"旗","s":14},"乞":{"t":"乞","s":3},"企":{"t":"企","s":6},"汽":{"t":"汽","s":8},"弃":{"t":"棄","s":13},"契":{"t":"契","s":9},"掐":{"t":"掐","s":12},"迁":{"t":"遷","s":19},"牵":{"t":"牽","s":11},"铅":{"t":"鉛","s":13},"签":{"t":"簽","s":19},"浅":{"t":"淺","s":12},"欠":{"t":"欠","s":4},"枪":{"t":"槍","s":14},"墙":{"t":"牆","s":16},"抢":{"t":"搶","s":14},"悄":{"t":"悄","s":11},"敲":{"t":"敲","s":14},"桥":{"t":"橋","s":16},"瞧":{"t":"瞧","s":17},"切":{"t":"切","s":4},"茄":{"t":"茄","s":11},"且":{"t":"且","s":5},"窃":{"t":"竊","s":22},"亲":{"t":"親","s":16},"勤":{"t":"勤","s":13},"轻":{"t":"輕","s":14},"氢":{"t":"氫","s":11},"倾":{"t":"傾","s":13},"晴":{"t":"晴","s":12},"穷":{"t":"窮","s":15},"驱":{"t":"驅","s":21},"趋":{"t":"趨","s":17},"趣":{"t":"趣","s":15},"圈":{"t":"圈","s":11},"拳":{"t":"拳","s":10},"犬":{"t":"犬","s":4},"劝":{"t":"勸","s":19},"缺":{"t":"缺","s":10},"确":{"t":"確","s":15},"雀":{"t":"雀","s":11},"裙":{"t":"裙","s":13},"燃":{"t":"燃","s":16},"染":{"t":"染","s":9},"扰":{"t":"擾","s":21},"绕":{"t":"繞","s":18},"惹":{"t":"惹","s":13},"刃":{"t":"刃","s":3},"认":{"t":"認","s":14},"扔":{"t":"扔","s":6},"熔":{"t":"熔","s":14},"肉":{"t":"肉","s":6},"乳":{"t":"乳","s":8},"辱":{"t":"辱","s":10},"软":{"t":"軟","s":11},"锐":{"t":"銳","s":15},"弱":{"t":"弱","s":10},"洒":{"t":"灑","s":23},"散":{"t":"散","s":12},"嗓":{"t":"嗓","s":13},"丧":{"t":"喪","s":15},"扫":{"t":"掃","s":12},"嫂":{"t":"嫂","s":13},"色":{"t":"色","s":6},"僧":{"t":"僧","s":14},"杀":{"t":"殺","s":11},"纱":{"t":"紗","s":10},"傻":{"t":"傻","s":13},"晒":{"t":"曬","s":14},"闪":{"t":"閃","s":10},"商":{"t":"商","s":11},"烧":{"t":"燒","s":16},"稍":{"t":"稍","s":12},"奢":{"t":"奢","s":11},"赊":{"t":"賒","s":14},"蛇":{"t":"蛇","s":11},"舍":{"t":"舍","s":8},"射":{"t":"射","s":10},"涉":{"t":"涉","s":11},"摄":{"t":"攝","s":22},"婶":{"t":"嬸","s":18},"肾":{"t":"腎","s":14},"牲":{"t":"牲","s":10},"绳":{"t":"繩","s":19},"省":{"t":"省","s":9},"剩":{"t":"剩","s":13},"尸":{"t":"屍","s":9},"失":{"t":"失","s":5},"狮":{"t":"獅","s":14},"湿":{"t":"濕","s":18},"拾":{"t":"拾","s":10},"食":{"t":"食","s":9},"使":{"t":"使","s":8},"始":{"t":"始","s":8},"驶":{"t":"駛","s":15},"士":{"t":"士","s":3},"氏":{"t":"氏","s":4},"示":{"t":"示","s":5},"式":{"t":"式","s":6},"侍":{"t":"侍","s":8},"视":{"t":"視","s":12},"试":{"t":"試","s":13},"收":{"t":"收","s":6},"手":{"t":"手","s":4},"受":{"t":"受","s":8},"兽":{"t":"獸","s":19},"售":{"t":"售","s":11},"梳":{"t":"梳","s":11},"蔬":{"t":"蔬","s":17},"输":{"t":"輸","s":16},"赎":{"t":"贖","s":22},"熟":{"t":"熟","s":15},"暑":{"t":"暑","s":13},"署":{"t":"署","s":14},"蜀":{"t":"蜀","s":13},"鼠":{"t":"鼠","s":13},"属":{"t":"屬","s":21},"竖":{"t":"豎","s":14},"数":{"t":"數","s":15},"刷":{"t":"刷","s":8},"耍":{"t":"耍","s":9},"摔":{"t":"摔","s":14},"甩":{"t":"甩","s":5},"帅":{"t":"帥","s":9},"栓":{"t":"栓","s":10},"霜":{"t":"霜","s":17},"爽":{"t":"爽","s":11},"谁":{"t":"誰","s":15},"税":{"t":"稅","s":12},"睡":{"t":"睡","s":13},"说":{"t":"說","s":14},"丝":{"t":"絲","s":12},"私":{"t":"私","s":7},"撕":{"t":"撕","s":16},"死":{"t":"死","s":6},"寺":{"t":"寺","s":6},"似":{"t":"似","s":7},"饲":{"t":"飼","s":14},"耸":{"t":"聳","s":17},"送":{"t":"送","s":13},"诵":{"t":"誦","s":14},"搜":{"t":"搜","s":14},"俗":{"t":"俗","s":9},"诉":{"t":"訴","s":12},"蒜":{"t":"蒜","s":16},"损":{"t":"損","s":14},"笋":{"t":"筍","s":12},"缩":{"t":"縮","s":16},"锁":{"t":"鎖","s":18},"它":{"t":"它","s":5},"塌":{"t":"塌","s":13},"塔":{"t":"塔","s":13},"踏":{"t":"踏","s":15},"态":{"t":"態","s":14},"贪":{"t":"貪","s":11},"摊":{"t":"攤","s":22},"滩":{"t":"灘","s":23},"坛":{"t":"壇","s":16},"坦":{"t":"坦","s":8},"毯":{"t":"毯","s":12},"碳":{"t":"碳","s":14},"塘":{"t":"塘","s":13},"膛":{"t":"膛","s":15},"糖":{"t":"糖","s":16},"躺":{"t":"躺","s":15},"掏":{"t":"掏","s":12},"滔":{"t":"滔","s":14},"逃":{"t":"逃","s":13},"淘":{"t":"淘","s":12},"讨":{"t":"討","s":10},"套":{"t":"套","s":10},"特":{"t":"特","s":10},"疼":{"t":"疼","s":10},"梯":{"t":"梯","s":11},"踢":{"t":"踢","s":15},"蹄":{"t":"蹄","s":16},"添":{"t":"添","s":12},"甜":{"t":"甜","s":11},"填":{"t":"填","s":13},"挑":{"t":"挑","s":10},"跳":{"t":"跳","s":13},"贴":{"t":"貼","s":12},"厅":{"t":"廳","s":25},"烃":{"t":"烴","s":11},"停":{"t":"停","s":11},"挺":{"t":"挺","s":11},"铜":{"t":"銅","s":14},"桶":{"t":"桶","s":11},"筒":{"t":"筒","s":12},"痛":{"t":"痛","s":12},"偷":{"t":"偷","s":11},"投":{"t":"投","s":8},"透":{"t":"透","s":14},"秃":{"t":"禿","s":7},"突":{"t":"突","s":9},"徒":{"t":"徒","s":10},"途":{"t":"途","s":14},"涂":{"t":"塗","s":13},"吐":{"t":"吐","s":6},"兔":{"t":"兔","s":8},"腿":{"t":"腿","s":16},"退":{"t":"退","s":13},"吞":{"t":"吞","s":7},"屯":{"t":"屯","s":4},"拖":{"t":"拖","s":9},"驼":{"t":"駝","s":15},"妥":{"t":"妥","s":7},"拓":{"t":"拓","s":9},"袜":{"t":"襪","s":21},"歪":{"t":"歪","s":9},"顽":{"t":"頑","s":13},"挽":{"t":"挽","s":11},"忘":{"t":"忘","s":7},"旺":{"t":"旺","s":8},"围":{"t":"圍","s":12},"惟":{"t":"惟","s":12},"味":{"t":"味","s":8},"畏":{"t":"畏","s":9},"胃":{"t":"胃","s":9},"喂":{"t":"喂","s":12},"慰":{"t":"慰","s":15},"纹":{"t":"紋","s":10},"吻":{"t":"吻","s":7},"稳":{"t":"穩","s":19},"窝":{"t":"窩","s":14},"我":{"t":"我","s":7},"卧":{"t":"臥","s":8},"握":{"t":"握","s":13},"污":{"t":"汙","s":7},"屋":{"t":"屋","s":9},"午":{"t":"午","s":4},"舞":{"t":"舞","s":14},"雾":{"t":"霧","s":19},"吸":{"t":"吸","s":7},"牺":{"t":"犧","s":20},"悉":{"t":"悉","s":11},"晰":{"t":"晰","s":12},"溪":{"t":"溪","s":14},"锡":{"t":"錫","s":16},"袭":{"t":"襲","s":22},"媳":{"t":"媳","s":13},"洗":{"t":"洗","s":10},"系":{"t":"係","s":9},"隙":{"t":"隙","s":14},"瞎":{"t":"瞎","s":15},"峡":{"t":"峽","s":10},"侠":{"t":"俠","s":9},"狭":{"t":"狹","s":10},"吓":{"t":"嚇","s":17},"纤":{"t":"纖","s":23},"掀":{"t":"掀","s":12},"闲":{"t":"閑","s":12},"弦":{"t":"絃","s":8},"衔":{"t":"銜","s":14},"嫌":{"t":"嫌","s":13},"险":{"t":"險","s":21},"献":{"t":"獻","s":20},"限":{"t":"限","s":14},"宪":{"t":"憲","s":16},"陷":{"t":"陷","s":16},"馅":{"t":"餡","s":16},"羡":{"t":"羨","s":13},"箱":{"t":"箱","s":15},"襄":{"t":"襄","s":17},"响":{"t":"響","s":22},"像":{"t":"像","s":14},"橡":{"t":"橡","s":16},"削":{"t":"削","s":9},"消":{"t":"消","s":11},"宵":{"t":"宵","s":10},"硝":{"t":"硝","s":12},"销":{"t":"銷","s":15},"校":{"t":"校","s":10},"笑":{"t":"笑","s":10},"歇":{"t":"歇","s":13},"蝎":{"t":"蠍","s":15},"邪":{"t":"邪","s":11},"斜":{"t":"斜","s":11},"泄":{"t":"泄","s":9},"泻":{"t":"瀉","s":19},"卸":{"t":"卸","s":9},"屑":{"t":"屑","s":10},"懈":{"t":"懈","s":17},"欣":{"t":"欣","s":8},"薪":{"t":"薪","s":19},"腥":{"t":"腥","s":13},"凶":{"t":"凶","s":6},"兄":{"t":"兄","s":5},"胸":{"t":"胸","s":12},"羞":{"t":"羞","s":11},"朽":{"t":"朽","s":6},"袖":{"t":"袖","s":11},"绣":{"t":"繡","s":18},"锈":{"t":"鏽","s":21},"需":{"t":"需","s":14},"畜":{"t":"畜","s":10},"叙":{"t":"敘","s":11},"悬":{"t":"懸","s":20},"穴":{"t":"穴","s":5},"血":{"t":"血","s":6},"熏":{"t":"熏","s":14},"巡":{"t":"巡","s":7},"询":{"t":"詢","s":13},"循":{"t":"循","s":12},"逊":{"t":"遜","s":17},"呀":{"t":"呀","s":7},"押":{"t":"押","s":9},"鸦":{"t":"鴉","s":15},"鸭":{"t":"鴨","s":16},"牙":{"t":"牙","s":4},"崖":{"t":"崖","s":11},"哑":{"t":"啞","s":11},"雅":{"t":"雅","s":12},"咽":{"t":"咽","s":9},"烟":{"t":"煙","s":13},"淹":{"t":"淹","s":12},"延":{"t":"延","s":7},"言":{"t":"言","s":7},"沿":{"t":"沿","s":9},"盐":{"t":"鹽","s":24},"掩":{"t":"掩","s":12},"眼":{"t":"眼","s":11},"演":{"t":"演","s":15},"雁":{"t":"雁","s":12},"邀":{"t":"邀","s":20},"腰":{"t":"腰","s":15},"摇":{"t":"搖","s":14},"遥":{"t":"遙","s":17},"窑":{"t":"窯","s":11},"谣":{"t":"謠","s":17},"咬":{"t":"咬","s":9},"药":{"t":"藥","s":21},"要":{"t":"要","s":9},"椰":{"t":"椰","s":13},"爷":{"t":"爺","s":13},"野":{"t":"野","s":11},"夜":{"t":"夜","s":8},"液":{"t":"液","s":12},"姨":{"t":"姨","s":10},"移":{"t":"移","s":11},"遗":{"t":"遺","s":19},"疑":{"t":"疑","s":14},"蚁":{"t":"蟻","s":19},"忆":{"t":"憶","s":17},"役":{"t":"役","s":7},"抑":{"t":"抑","s":8},"疫":{"t":"疫","s":9},"谊":{"t":"誼","s":15},"逸":{"t":"逸","s":15},"意":{"t":"意","s":13},"毅":{"t":"毅","s":15},"饮":{"t":"飲","s":13},"婴":{"t":"嬰","s":17},"荧":{"t":"熒","s":14},"蝇":{"t":"蠅","s":18},"赢":{"t":"贏","s":20},"硬":{"t":"硬","s":12},"哟":{"t":"喲","s":12},"拥":{"t":"擁","s":17},"泳":{"t":"泳","s":9},"悠":{"t":"悠","s":11},"迂":{"t":"迂","s":10},"愉":{"t":"愉","s":13},"渔":{"t":"漁","s":15},"愚":{"t":"愚","s":13},"榆":{"t":"榆","s":13},"御":{"t":"禦","s":16},"裕":{"t":"裕","s":13},"愈":{"t":"癒","s":18},"豫":{"t":"豫","s":16},"园":{"t":"園","s":13},"跃":{"t":"躍","s":21},"匀":{"t":"勻","s":4},"蕴":{"t":"蘊","s":22},"匝":{"t":"匝","s":5},"栽":{"t":"栽","s":10},"咱":{"t":"咱","s":9},"暂":{"t":"暫","s":15},"赃":{"t":"贓","s":21},"脏":{"t":"髒","s":24},"遭":{"t":"遭","s":14},"糟":{"t":"糟","s":17},"澡":{"t":"澡","s":17},"灶":{"t":"灶","s":7},"造":{"t":"造","s":14},"噪":{"t":"噪","s":15},"燥":{"t":"燥","s":17},"贼":{"t":"賊","s":13},"怎":{"t":"怎","s":9},"憎":{"t":"憎","s":16},"眨":{"t":"眨","s":9},"炸":{"t":"炸","s":9},"榨":{"t":"榨","s":14},"斋":{"t":"齋","s":17},"宅":{"t":"宅","s":6},"窄":{"t":"窄","s":10},"债":{"t":"債","s":13},"寨":{"t":"寨","s":14},"瞻":{"t":"瞻","s":18},"毡":{"t":"氈","s":9},"粘":{"t":"粘","s":11},"沾":{"t":"沾","s":9},"盏":{"t":"盞","s":13},"斩":{"t":"斬","s":11},"站":{"t":"站","s":10},"漳":{"t":"漳","s":15},"掌":{"t":"掌","s":12},"杖":{"t":"杖","s":7},"帐":{"t":"帳","s":11},"账":{"t":"賬","s":15},"障":{"t":"障","s":14},"招":{"t":"招","s":9},"沼":{"t":"沼","s":9},"罩":{"t":"罩","s":13},"遮":{"t":"遮","s":15},"折":{"t":"折","s":8},"蛰":{"t":"蟄","s":16},"辙":{"t":"轍","s":19},"锗":{"t":"鍺","s":16},"蔗":{"t":"蔗","s":14},"浙":{"t":"浙","s":11},"砧":{"t":"砧","s":10},"臻":{"t":"臻","s":16},"震":{"t":"震","s":15},"挣":{"t":"掙","s":12},"睁":{"t":"睜","s":12},"筝":{"t":"箏","s":14},"蒸":{"t":"蒸","s":16},"整":{"t":"整","s":16},"证":{"t":"證","s":19},"汁":{"t":"汁","s":6},"芝":{"t":"芝","s":10},"枝":{"t":"枝","s":8},"脂":{"t":"脂","s":12},"蜘":{"t":"蜘","s":14},"殖":{"t":"殖","s":12},"指":{"t":"指","s":10},"趾":{"t":"趾","s":11},"至":{"t":"至","s":6},"秩":{"t":"秩","s":10},"滞":{"t":"滯","s":15},"衷":{"t":"衷","s":10},"肿":{"t":"腫","s":15},"粥":{"t":"粥","s":12},"轴":{"t":"軸","s":12},"肘":{"t":"肘","s":7},"帚":{"t":"帚","s":8},"咒":{"t":"咒","s":8},"宙":{"t":"宙","s":8},"昼":{"t":"晝","s":11},"骤":{"t":"驟","s":24},"猪":{"t":"豬","s":16},"逐":{"t":"逐","s":14},"煮":{"t":"煮","s":12},"嘱":{"t":"囑","s":24},"瞩":{"t":"矚","s":24},"蛀":{"t":"蛀","s":11},"贮":{"t":"貯","s":12},"驻":{"t":"駐","s":15},"柱":{"t":"柱","s":9},"筑":{"t":"築","s":15},"抓":{"t":"抓","s":8},"爪":{"t":"爪","s":4},"拽":{"t":"拽","s":10},"砖":{"t":"磚","s":16},"赚":{"t":"賺","s":17},"撰":{"t":"撰","s":16},"撞":{"t":"撞","s":16},"坠":{"t":"墜","s":15},"缀":{"t":"綴","s":14},"桌":{"t":"桌","s":10},"琢":{"t":"琢","s":13},"茁":{"t":"茁","s":11},"酌":{"t":"酌","s":10},"啄":{"t":"啄","s":11},"着":{"t":"著","s":15},"浊":{"t":"濁","s":17},"兹":{"t":"茲","s":12},"孜":{"t":"孜","s":7},"仔":{"t":"仔","s":5},"籽":{"t":"籽","s":9},"踪":{"t":"蹤","s":16},"棕":{"t":"棕","s":12},"揍":{"t":"揍","s":12},"卒":{"t":"卒","s":8},"诅":{"t":"詛","s":12},"阻":{"t":"阻","s":8},"纂":{"t":"纂","s":20},"嘴":{"t":"嘴","s":15},"醉":{"t":"醉","s":15},"尊":{"t":"尊","s":12},"遵":{"t":"遵","s":19},"昨":{"t":"昨","s":9}};
+
+// 部首字表
+const RADICAL_CHARS = {"林":"木","森":"木","栋":"木","楷":"木","彬":"木","松":"木","桐":"木","梓":"木","柯":"木","栩":"木","梵":"木","棠":"木","棣":"木","楠":"木","榕":"木","荣":"木","桦":"木","桂":"木","桃":"木","栓":"木","栖":"木","栗":"木","桓":"木","桔":"木","桢":"木","桥":"木","桧":"木","桨":"木","桩":"木","格":"木","栽":"木","栾":"木","树":"木","机":"木","极":"木","权":"木","朵":"木","李":"木","杏":"木","材":"木","村":"木","杖":"木","杜":"木","束":"木","杠":"木","条":"木","杯":"木","杰":"木","构":"木","枇":"木","枉":"木","枋":"木","析":"木","枕":"木","枚":"木","果":"木","枝":"木","枞":"木","枢":"木","枣":"木","枥":"木","枧":"木","枨":"木","枪":"木","枫":"木","枭":"木","柜":"木","柠":"木","柁":"木","柃":"木","某":"木","柑":"木","柒":"木","染":"木","柔":"木","柘":"木","柚":"木","栉":"木","栊":"木","栌":"木","栎":"木","栏":"木","样":"木","核":"木","根":"木","栝":"木","校":"木","株":"木","栲":"木","栳":"木","桎":"木","桑":"木","桠":"木","桡":"木","档":"木","桤":"木","梃":"木","桌":"木","棋":"木","棍":"木","椒":"木","棹":"木","椟":"木","椠":"木","椤":"木","椭":"木","楼":"木","榄":"木","榆":"木","椴":"木","椽":"木","椿":"木","楗":"木","楝":"木","楣":"木","楸":"木","楹":"木","榀":"木","概":"木","榇":"木","榈":"木","榉":"木","槁":"木","槊":"木","槟":"木","槠":"木","槿":"木","樊":"木","樯":"木","樱":"木","橥":"木","橱":"木","橹":"木","橼":"木","橙":"木","橦":"木","檩":"木","檬":"木","海":"水","涵":"水","泽":"水","涛":"水","洋":"水","清":"水","源":"水","渊":"水","溥":"水","溪":"水","潇":"水","漫":"水","澈":"水","澎":"水","潮":"水","澳":"水","潘":"水","澜":"水","澄":"水","澹":"水","澍":"水","浩":"水","汉":"水","江":"水","河":"水","湖":"水","泊":"水","沿":"水","泡":"水","注":"水","泳":"水","泼":"水","波":"水","泥":"水","浅":"水","法":"水","泄":"水","沽":"水","沾":"水","油":"水","泅":"水","况":"水","泉":"水","泵":"水","砂":"水","沓":"水","泫":"水","泌":"水","泓":"水","泗":"水","泛":"水","泞":"水","泠":"水","泣":"水","泪":"水","泮":"水","泯":"水","泰":"水","泱":"水","泷":"水","泸":"水","泺":"水","泾":"水","洒":"水","洗":"水","洙":"水","洚":"水","洛":"水","洞":"水","洎":"水","洫":"水","洽":"水","洮":"水","洱":"水","洲":"水","洳":"水","洵":"水","汹":"水","汾":"水","沁":"水","沂":"水","沃":"水","沈":"水","沉":"水","沐":"水","沙":"水","没":"水","汽":"水","池":"水","汤":"水","汪":"水","沅":"水","沛":"水","汰":"水","沥":"水","沏":"水","沌":"水","冲":"水","沧":"水","洹":"水","洧":"水","洼":"水","洁":"水","洪":"水","洌":"水","浃":"水","浆":"水","浇":"水","浊":"水","测":"水","浍":"水","济":"水","浏":"水","浐":"水","浑":"水","浒":"水","浓":"水","浔":"水","浕":"水","涂":"水","涕":"水","涝":"水","涞":"水","涟":"水","涠":"水","涡":"水","涢":"水","涣":"水","涤":"水","润":"水","涧":"水","涨":"水","涩":"水","淀":"水","渌":"水","渍":"水","渎":"水","渐":"水","渑":"水","渖":"水","渔":"水","淘":"水","淙":"水","液":"水","淬":"水","涸":"水","涿":"水","淦":"水","淖":"水","混":"水","淝":"水","淄":"水","淠":"水","淡":"水","淞":"水","淤":"水","添":"水","淼":"水","明":"火","朗":"火","炎":"火","炳":"火","烁":"火","炫":"火","烨":"火","焕":"火","煜":"火","熠":"火","灿":"火","炀":"火","炅":"火","炜":"火","炬":"火","炖":"火","炒":"火","炝":"火","炆":"火","炘":"火","炙":"火","炟":"火","炽":"火","炼":"火","荧":"火","春":"火","晓":"火","晨":"火","景":"火","晴":"火","晶":"火","旭":"火","昊":"火","皓":"火","晗":"火","晖":"火","暖":"火","暗":"火","昨":"火","时":"火","旺":"火","昙":"火","昧":"火","昭":"火","映":"火","昱":"火","昶":"火","昵":"火","昼":"火","晁":"火","晏":"火","晃":"火","晒":"火","晔":"火","晕":"火","暂":"火","暄":"火","暇":"火","暧":"火","暮":"火","暴":"火","曛":"火","曜":"火","曦":"火","灯":"火","灰":"火","灵":"火","灶":"火","灾":"火","灼":"火","烂":"火","烃":"火","炱":"火","炭":"火","炮":"火","炷":"火","炻":"火","土":"土","山":"土","石":"土","田":"土","坤":"土","坦":"土","垚":"土","城":"土","培":"土","基":"土","堂":"土","坚":"土","均":"土","圻":"土","坂":"土","坩":"土","垅":"土","坫":"土","垆":"土","坼":"土","坻":"土","坨":"土","坭":"土","坶":"土","坳":"土","垭":"土","垤":"土","垌":"土","垲":"土","埏":"土","垴":"土","埕":"土","埘":"土","埙":"土","埚":"土","埝":"土","埤":"土","埯":"土","堑":"土","埽":"土","埭":"土","埴":"土","埸":"土","峰":"土","岭":"土","岩":"土","崖":"土","岗":"土","岸":"土","岛":"土","峡":"土","峦":"土","峙":"土","峋":"土","峒":"土","峤":"土","峥":"土","崂":"土","崃":"土","崧":"土","崮":"土","崤":"土","崎":"土","崦":"土","崭":"土","嵘":"土","嵖":"土","嵛":"土","嵝":"土","嵯":"土","嵬":"土","嵫":"土","嵋":"土","崴":"土","崽":"土","崾":"土","嵇":"土","嵊":"土","嵩":"土","嵴":"土","嶂":"土","嶙":"土","嶝":"土","巅":"土","巍":"土","钻":"土","碎":"土","硬":"土","确":"土","砚":"土","砭":"土","砜":"土","砥":"土","砬":"土","砣":"土","砸":"土","砰":"土","破":"土","砷":"土","砧":"土","砩":"土","砼":"土","砾":"土","础":"土","硁":"土","硅":"土","硇":"土","硌":"土","硎":"土","硒":"土","硕":"土","硖":"土","硗":"土","硙":"土","硚":"土","硝":"土","硫":"土","安":"土","宁":"火","宇":"土","守":"土","宅":"土","宗":"土","定":"土","宜":"土","宝":"土","实":"土","宠":"土","审":"土","宪":"土","宫":"土","宰":"土","害":"土","宽":"土","家":"土","宸":"土","容":"土","寅":"土","寄":"土","寂":"土","宿":"土","密":"土","寇":"土","富":"土","寓":"土","寨":"土","塞":"土","寞":"土","察":"土","寥":"土","谭":"土","谷":"土","豆":"土","贝":"土","赤":"土","走":"土","足":"土","身":"土","车":"土","辛":"土","辰":"土","邑":"土","酉":"土","釆":"土","里":"土","金":"金","长":"土","门":"土","阜":"土","隹":"土","雨":"土","青":"土","非":"土","面":"土","革":"土","韦":"土","音":"土","页":"土","风":"土","飞":"土","食":"土","首":"土","香":"土","马":"土","骨":"土","高":"土","髟":"土","鬥":"土","鬯":"土","鬲":"土","鬼":"土","鱼":"土","鸟":"土","卤":"土","鹿":"土","麦":"土","麻":"土","黄":"土","黍":"土","黑":"土","黹":"土","黾":"土","鼎":"土","鼓":"土","鼠":"土","鼻":"土","齐":"土","齿":"土","龙":"土","龟":"土","银":"金","铜":"金","铁":"金","锡":"金","铅":"金","锌":"金","铝":"金","钢":"金","铃":"金","锐":"金","锋":"金","铭":"金","钧":"金","钰":"金","锦":"金","钦":"金","钟":"金","铄":"金","铉":"金","铖":"金","铗":"金","铙":"金","铘":"金","铛":"金","铞":"金","铟":"金","铠":"金","铡":"金","铢":"金","铣":"金","铤":"金","铥":"金","铧":"金","铨":"金","铩":"金","铪":"金","铫":"金","铬":"金","铮":"金","铯":"金","铰":"金","铱":"金","铲":"金","铳":"金","铴":"金","铵":"金","铷":"金","铸":"金","铹":"金","铺":"金","铼":"金","铽":"金","链":"金","铿":"金","销":"金","锁":"金","锂":"金","锃":"金","锄":"金","锅":"金","锆":"金","锇":"金","锈":"金","锉":"金","锍":"金","锎":"金","锏":"金","锑":"金","锒":"金","锓":"金","锔":"金","锕":"金","锖":"金","锗":"金","锘":"金","错":"金","锚":"金","锛":"金","锜":"金","锝":"金","锞":"金","锟":"金","锠":"金","锢":"金","锣":"金","锤":"金","锥":"金","锧":"金","锩":"金","锪":"金","锫":"金","锬":"金","锭":"金","键":"金","锯":"金","锰":"金","锱":"金","锲":"金","锳":"金","锴":"金","锵":"金","锶":"金","锷":"金","锸":"金","锹":"金","锺":"金","锻":"金","锼":"金","锾":"金","锿":"金","镀":"金","镁":"金","镂":"金","镃":"金","镄":"金","镅":"金","镆":"金","镇":"金","镈":"金","镉":"金","镊":"金","镋":"金","镌":"金","镍":"金","镎":"金","镏":"金","镐":"金","镑":"金","镒":"金","镓":"金","镔":"金","镕":"金","镖":"金","镗":"金","镘":"金","镙":"金","镚":"金","镛":"金","镜":"金","镝":"金","镞":"金","镠":"金","镡":"金","镢":"金","镣":"金","镤":"金","镥":"金","镦":"金","镧":"金","镨":"金","镩":"金","镪":"金","镫":"金","镬":"金","镭":"金","镮":"金","镯":"金","镰":"金","镱":"金","镲":"金","镳":"金","镴":"金","镵":"金","镶":"金","剑":"金","刚":"金","创":"金","划":"金","列":"金","刘":"金","则":"金","刑":"金","利":"金","判":"金","别":"金","刬":"金","刭":"金","删":"金","刨":"金","花":"木","草":"木","芬":"木","芳":"木","苗":"木","若":"木","苦":"木","茂":"木","苹":"木","苑":"木","茁":"木","茹":"木","荔":"木","荷":"木","莉":"木","莎":"木","莹":"木","菁":"木","菊":"木","菩":"木","萍":"木","菠":"木","萤":"木","营":"木","萦":"木","萧":"木","萨":"木","葱":"木","葵":"木","蒂":"木","萱":"木","葭":"木","蒋":"木","蒙":"木","蒲":"木","蓝":"木","蓉":"木","蓠":"木","蓣":"木","蓥":"木","蓦":"木","蔷":"木","蔌":"木","蔼":"木","蔺":"木","蕖":"木","蔻":"木","蓿":"木","蓼":"木","蔚":"木","蓰":"木","心":"火","忄":"火","必":"火","忆":"火","忌":"火","忍":"火","忐":"火","忑":"火","志":"火","忘":"火","忙":"火","忡":"火","忤":"火","忧":"火","忪":"火","快":"火","忭":"火","忮":"火","怃":"火","怄":"火","怅":"火","怆":"火","怒":"火","思":"火","怠":"火","急":"火","怨":"火","怼":"火","怍":"火","怎":"火","怏":"火","怛":"火","怕":"火","怫":"火","怦":"火","怩":"火","怙":"火","恋":"火","恍":"火","恬":"火","恤":"火","恫":"火","恼":"火","恽":"火","悔":"火","悃":"火","悄":"火","悌":"火","悍":"火","悒":"火","悠":"火","您":"火","悫":"火","悬":"火","悭":"火","悯":"火","悱":"火","悲":"火","悸":"火","悼":"火","情":"火","悻":"火","惋":"火","惕":"火","惘":"火","惊":"火","惦":"火","悴":"火","愀":"火","愁":"火","愤":"火","愦":"火","愿":"火","慈":"火","憨":"火","慰":"火","慵":"火","慷":"火","憋":"火","慧":"火","戚":"火","想":"火","愈":"火","愚":"火","感":"火","恩":"火","惠":"火","意":"火","懿":"火"};
+
+// ===== 初始化下拉框 =====
+function initSelects() {
+  const yearSel = document.getElementById('yearSelect');
+  const monthSel = document.getElementById('monthSelect');
+  const daySel = document.getElementById('daySelect');
+  yearSel.innerHTML = '<option value="">年份</option>';
+  for (let y = 2030; y >= 1940; y--) {
+    yearSel.innerHTML += `<option value="${y}">${y}年</option>`;
+  }
+  monthSel.innerHTML = '<option value="">月份</option>';
+  for (let m = 1; m <= 12; m++) {
+    monthSel.innerHTML += `<option value="${m}">${m}月</option>`;
+  }
+  daySel.innerHTML = '<option value="">日期</option>';
+  for (let d = 1; d <= 31; d++) {
+    daySel.innerHTML += `<option value="${d}">${d}日</option>`;
+  }
+}
+
+function selectGender(el) {
+  document.querySelectorAll('.gender-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== 八字排盘 =====
+function getYearPillar(year) {
+  const idx = ((year - 4) % 60 + 60) % 60;
+  return { gan: TIANGAN[idx % 10], zhi: DIZHI[idx % 12], idx: idx };
+}
+
+function getMonthPillar(year, month, day, yearGan) {
+  let zhiIdx;
+  if (month < 2 || (month === 2 && day < 4)) zhiIdx = 1;
+  else if (month < 3 || (month === 3 && day < 6)) zhiIdx = 2;
+  else if (month < 4 || (month === 4 && day < 5)) zhiIdx = 3;
+  else if (month < 5 || (month === 5 && day < 6)) zhiIdx = 4;
+  else if (month < 6 || (month === 6 && day < 6)) zhiIdx = 5;
+  else if (month < 7 || (month === 7 && day < 7)) zhiIdx = 6;
+  else if (month < 8 || (month === 8 && day < 8)) zhiIdx = 7;
+  else if (month < 9 || (month === 9 && day < 8)) zhiIdx = 8;
+  else if (month < 10 || (month === 10 && day < 8)) zhiIdx = 9;
+  else if (month < 11 || (month === 11 && day < 7)) zhiIdx = 10;
+  else if (month < 12 || (month === 12 && day < 7)) zhiIdx = 11;
+  else zhiIdx = 0;
+  const WUHU = {'甲':'丙','己':'丙','乙':'戊','庚':'戊','丙':'庚','辛':'庚','丁':'壬','壬':'壬','戊':'甲','癸':'甲'};
+  const yinGanIdx = TIANGAN.indexOf(WUHU[yearGan]);
+  const ganIdx = (yinGanIdx + (zhiIdx - 2) + 10) % 10;
+  return { gan: TIANGAN[ganIdx], zhi: DIZHI[zhiIdx], idx: ganIdx };
+}
+
+function getDayPillar(year, month, day) {
+  const base = new Date(2000, 0, 1);
+  const target = new Date(year, month - 1, day);
+  const diff = Math.floor((target - base) / 86400000);
+  const idx = ((54 + diff) % 60 + 60) % 60;
+  return { gan: TIANGAN[idx % 10], zhi: DIZHI[idx % 12], idx: idx };
+}
+
+function getHourPillar(dayGan, hourIdx) {
+  const WUSHU = {'甲':'甲','己':'甲','乙':'丙','庚':'丙','丙':'戊','辛':'戊','丁':'庚','壬':'庚','戊':'壬','癸':'壬'};
+  const ziGanIdx = TIANGAN.indexOf(WUSHU[dayGan]);
+  const ganIdx = (ziGanIdx + hourIdx) % 10;
+  return { gan: TIANGAN[ganIdx], zhi: DIZHI[hourIdx], idx: ganIdx };
+}
+
+// 十神
+function getShishen(dayGan, otherGan, isZhi) {
+  const dayWx = GAN_WUXING[dayGan];
+  const otherWx = GAN_WUXING[otherGan];
+  const dayYinYang = TIANGAN.indexOf(dayGan) % 2;
+  const otherYinYang = TIANGAN.indexOf(otherGan) % 2;
+  const sameYY = dayYinYang === otherYinYang;
+  if (dayWx === otherWx) return sameYY ? '比肩' : '劫财';
+  if (WUXING_SHENG[dayWx] === otherWx) return sameYY ? '食神' : '伤官';
+  if (WUXING_KE[dayWx] === otherWx) return sameYY ? '偏财' : '正财';
+  if (WUXING_KE[otherWx] === dayWx) return sameYY ? '七杀' : '正官';
+  if (WUXING_SHENG[otherWx] === dayWx) return sameYY ? '偏印' : '正印';
+  return '';
+}
+
+// 身强身弱
+function analyzeStrength(bazi) {
+  const dayGan = bazi.day.gan;
+  const dayWx = GAN_WUXING[dayGan];
+  const monthZhi = bazi.month.zhi;
+  const monthWx = ZHI_WUXING[monthZhi];
+  // 得令
+  const deLing = (dayWx === monthWx) || (WUXING_SHENG[monthWx] === dayWx);
+  // 得地：地支中有几个同五行或生五行
+  let deDi = 0;
+  [bazi.year.zhi, bazi.month.zhi, bazi.day.zhi, bazi.hour ? bazi.hour.zhi : null].forEach(z => {
+    if (z) {
+      const zw = ZHI_WUXING[z];
+      if (zw === dayWx) deDi += 2;
+      else if (WUXING_SHENG[zw] === dayWx) deDi += 1;
+    }
+  });
+  // 得势：天干中有几个同五行或生五行
+  let deShi = 0;
+  [bazi.year.gan, bazi.month.gan, bazi.hour ? bazi.hour.gan : null].forEach(g => {
+    if (g) {
+      const gw = GAN_WUXING[g];
+      if (gw === dayWx) deShi += 2;
+      else if (WUXING_SHENG[gw] === dayWx) deShi += 1;
+    }
+  });
+  const total = (deLing ? 2 : 0) + deDi + deShi;
+  const isStrong = total >= 6;
+  return { deLing, deDi, deShi, total, isStrong };
+}
+
+// 喜用神
+function getXiYong(dayGan, isStrong) {
+  const dayWx = GAN_WUXING[dayGan];
+  const shengWo = Object.keys(WUXING_SHENG).find(w => WUXING_SHENG[w] === dayWx);
+  const keWo = Object.keys(WUXING_KE).find(w => WUXING_KE[w] === dayWx);
+  const woSheng = WUXING_SHENG[dayWx];
+  const woKe = WUXING_KE[dayWx];
+  if (isStrong) {
+    const xi = [keWo, woSheng, woKe];
+    const ji = [shengWo, dayWx];
+    return { xiyong: [...new Set(xi)], jishen: [...new Set(ji)] };
+  } else {
+    const xi = [shengWo, dayWx];
+    const ji = [keWo, woSheng, woKe];
+    return { xiyong: [...new Set(xi)], jishen: [...new Set(ji)] };
+  }
+}
+
+// 地支关系分析
+function analyzeDizhiRelations(bazi) {
+  const zhis = [bazi.year.zhi, bazi.month.zhi, bazi.day.zhi, bazi.hour ? bazi.hour.zhi : null].filter(Boolean);
+  const CHONG = {'子':'午','午':'子','丑':'未','未':'丑','寅':'申','申':'寅','卯':'酉','酉':'卯','辰':'戌','戌':'辰','巳':'亥','亥':'巳'};
+  const LIUHE = {'子':'丑','丑':'子','寅':'亥','亥':'寅','卯':'戌','戌':'卯','辰':'酉','酉':'辰','巳':'申','申':'巳','午':'未','未':'午'};
+  const SANHE = {
+    '申子辰':'水','亥卯未':'木','寅午戌':'火','巳酉丑':'金'
+  };
+  const XING = {'寅':'巳','巳':'申','申':'寅','丑':'戌','戌':'未','未':'丑','子':'卯','卯':'子','辰':'午','午':'酉','酉':'辰','亥':'寅'};
+  const HAI = {'子':'未','未':'子','丑':'午','午':'丑','寅':'巳','巳':'寅','卯':'辰','辰':'卯','申':'亥','亥':'申','酉':'戌','戌':'酉'};
+
+  const relations = [];
+  const zhiNames = ['年支','月支','日支','时支'];
+  // 六冲
+  for (let i = 0; i < zhis.length; i++) {
+    for (let j = i+1; j < zhis.length; j++) {
+      if (CHONG[zhis[i]] === zhis[j]) {
+        relations.push({type: '冲', text: `${zhiNames[i]}${zhis[i]}冲${zhiNames[j]}${zhis[j]}`, a: zhis[i], b: zhis[j]});
+      }
+      if (LIUHE[zhis[i]] === zhis[j]) {
+        relations.push({type: '合', text: `${zhiNames[i]}${zhis[i]}合${zhiNames[j]}${zhis[j]}`, a: zhis[i], b: zhis[j]});
+      }
+      if (XING[zhis[i]] === zhis[j]) {
+        relations.push({type: '刑', text: `${zhiNames[i]}${zhis[i]}刑${zhiNames[j]}${zhis[j]}`, a: zhis[i], b: zhis[j]});
+      }
+      if (HAI[zhis[i]] === zhis[j]) {
+        relations.push({type: '害', text: `${zhiNames[i]}${zhis[i]}害${zhiNames[j]}${zhis[j]}`, a: zhis[i], b: zhis[j]});
+      }
+    }
+  }
+  // 三合
+  const zhiSet = zhis.join('');
+  for (let combo in SANHE) {
+    let match = 0;
+    for (let c of combo) { if (zhiSet.includes(c)) match++; }
+    if (match >= 2) {
+      relations.push({type: '三合', text: `${combo.split('').join('')}三合${SANHE[combo]}局(${match}/3)`, a: combo, b: SANHE[combo]});
+    }
+  }
+  return relations;
+}
+
+// 十神解读
+function getShishenDetail(dayGan, wx) {
+  const dayWx = GAN_WUXING[dayGan];
+  const dayYY = TIANGAN.indexOf(dayGan) % 2;
+  if (wx === dayWx) return { name: '比劫', desc: dayYY === 0 ? '比肩：兄弟朋友、竞争助力' : '劫财：争夺、破财风险' };
+  if (WUXING_SHENG[wx] === dayWx) return { name: '印星', desc: '印星：贵人、学业、长辈、靠山' };
+  if (WUXING_SHENG[dayWx] === wx) return { name: '食伤', desc: '食伤：才华、财源、泄秀、创造力' };
+  if (WUXING_KE[wx] === dayWx) return { name: '官杀', desc: '官杀：事业、权力、压力、规矩' };
+  if (WUXING_KE[dayWx] === wx) return { name: '财星', desc: '财星：财运、妻子、物质享受' };
+  return { name: '', desc: '' };
+}
+
+// 生肖喜忌详细
+const SHENGXIAO_DETAIL = {
+  '鼠': { xi: '宀(洞穴)、米/豆/禾(食物)、艹(草)、鱼(鱼)、夕(夜晚活动)、王/令/君(封侯)、亥/丑/申/辰(三合六合)', ji: '日/午/马(相冲)、火/灬(火克)、人/彳(怕人)、大/王(出头难)' },
+  '牛': { xi: '艹/禾/豆/米(食物)、宀(棚舍)、田(耕田)、车(拉车)、酉/子/巳(三合六合)', ji: '日/午/马(相冲)、心/忄(心属火)、羊(六冲)、大/王(出头难)、刀/刂(宰杀)' },
+  '虎': { xi: '山/林/木(栖息地)、王/君/令(森林之王)、大(体型大)、巾/衣/彡(虎皮)、午/戌/亥(三合六合)', ji: '人/彳(怕人)、口(虎口)、日/蛇/巳(六害)、申/猴(相冲)、小/臣(委屈)' },
+  '兔': { xi: '宀/口(洞穴)、艹/禾/豆/米(食物)、衣/彡(彩衣)、亥/未/戌(三合六合)', ji: '日/酉/鸡(相冲)、龙/辰(六害)、大/王/君(出头难)、人/彳(怕人)、刀/刂' },
+  '龙': { xi: '氵/雨/云(水)、日/月/星(天象)、王/大/君/令(帝王)、申/子/酉(三合六合)、彡/衣(彩衣)', ji: '狗/戌/犬(相冲)、兔/卯(六害)、虎/寅(龙虎斗)、小/臣(委屈)、口(龙忌口)' },
+  '蛇': { xi: '口/宀(洞穴)、木(爬树)、衣/彡/巾(蜕皮)、酉/丑/午(三合六合)', ji: '猪/亥(相冲)、虎/寅(相害)、猴/申(六合但也刑)、大/王/君、日/水' },
+  '马': { xi: '艹/禾/豆/米(食物)、木(树林)、巾/衣/彡(装饰)、寅/戌/未(三合六合)', ji: '鼠/子(相冲)、牛/丑(六害)、日/田(辛苦)、车(劳累)、大/王/君' },
+  '羊': { xi: '艹/禾/豆/米(食物)、木、口/宀(圈舍)、亥/卯/午(三合六合)', ji: '鼠/子(六害)、牛/丑(相冲)、狗/戌/犬(三刑)、大/王/君、刀/刂' },
+  '猴': { xi: '木(爬树)、禾/豆/米(食物)、口/宀(洞穴)、人/言(拟人)、子/辰/巳(三合六合)', ji: '虎/寅(相冲)、猪/亥(六害)、蛇/巳(三刑)、大/王/君、火/灬' },
+  '鸡': { xi: '米/豆/禾/虫(食物)、宀/山/冖(栖息)、巳/丑/辰(三合六合)', ji: '兔/卯(相冲)、狗/戌/犬(六害)、大/王/君、刀/刂、金' },
+  '狗': { xi: '亻/人(忠诚)、宀(家)、心/忄(忠心)、月/肉(食物)、巾/衣、寅/午/卯(三合六合)', ji: '龙/辰(相冲)、鸡/酉(六害)、羊/未(三刑)、牛/丑、大/王/君' },
+  '猪': { xi: '宀/冖(圈舍)、豆/米/禾/艹(食物)、木、卯/未/寅(三合六合)', ji: '蛇/巳(相冲)、猴/申(六害)、大/王/君、刀/刂、示(祭祀)' }
+};
+
+// 字结构分析
+function getCharStructure(char) {
+  const data = HANZI_DB[char];
+  const t = data ? data.t : char;
+  // 简单结构判断
+  if (t.length === 1) {
+    // 常见独体字
+    const duti = '一二三十人入八儿匕几刀力又干工土才寸下大丈与万上小口山巾千乞川亿个勺久凡及夕丸么广亡门义之尸弓己已巳子卫也女飞刃习叉马乡丰王井开夫天无元专云扎艺木五支厅不太犬区历尤友匹车巨牙屯比互切瓦止少日中冈贝内水见午牛手气毛升长仁什片仆化仇币仍仅斤爪反介父从今凶分乏公仓月氏勿欠风丹匀乌凤勾文六方火为斗忆订计户认心冗巴队办以允予劝双书幻玉刊示末未击打巧正扑扒功扔去甘世古节本术可丙左厉右石布龙平灭轧东卡北占业旧帅归且旦目叶甲申叮电号田由史只央叫叨另叹冉皿凹囚四生矢失乍禾丘白斥瓜乎用甩印乐句匆册外卯犯处冬鸟务包饥主市立闪兰半汁汇头汉宁穴它讨写让礼训必议讯记永司尼民出辽奶奴加召皮边发孕圣对台矛纠母幼丝';
+    if (duti.includes(t)) return '独体字';
+  }
+  // 左右结构
+  const leftRadicals = '亻彳氵冫扌纟糹木火土钅釒口日目月石礻衤讠言饣飠马鱼鸟犭虫足车革骨页';
+  for (let r of leftRadicals) {
+    if (t.startsWith(r) && t.length > 1) return '左右结构';
+  }
+  // 上下结构
+  const topRadicals = '艹宀穴⺮竹人入八癶疒尸户户勹冖雨';
+  for (let r of topRadicals) {
+    if (t.startsWith(r) && t.length > 1) return '上下结构';
+  }
+  // 半包围
+  const halfRadicals = '广疒尸户勹冂凵匚廴辶走';
+  for (let r of halfRadicals) {
+    if (t.startsWith(r)) return '半包围结构';
+  }
+  return '复合结构';
+}
+
+// ===== 五行判断 =====
+function strokeToWuxing(stroke) {
+  const n = stroke % 10;
+  if (n === 1 || n === 2) return '木';
+  if (n === 3 || n === 4) return '火';
+  if (n === 5 || n === 6) return '土';
+  if (n === 7 || n === 8) return '金';
+  return '水';
+}
+
+function getWuxing(char) {
+  if (RADICAL_CHARS[char]) {
+    const data = HANZI_DB[char] || {t: char, s: null};
+    return { wuxing: RADICAL_CHARS[char], method: '部首法', stroke: data.s, traditional: data.t };
+  }
+  if (HANZI_DB[char]) {
+    const data = HANZI_DB[char];
+    if (data.t && RADICAL_CHARS[data.t]) {
+      return { wuxing: RADICAL_CHARS[data.t], method: '部首法', stroke: data.s, traditional: data.t };
+    }
+    return { wuxing: strokeToWuxing(data.s), method: '笔画法('+data.s+'画)', stroke: data.s, traditional: data.t };
+  }
+  return { wuxing: null, method: '未知', stroke: null, traditional: char, unknown: true };
+}
+
+// 五行流通分析
+function analyzeFlow(wuxingList) {
+  if (wuxingList.length < 2) return { type: 'unknown', desc: '字数不足' };
+  let shengCount = 0, keCount = 0, sameCount = 0;
+  for (let i = 0; i < wuxingList.length - 1; i++) {
+    const a = wuxingList[i], b = wuxingList[i+1];
+    if (!a || !b) continue;
+    if (a === b) sameCount++;
+    else if (WUXING_SHENG[a] === b) shengCount++;
+    else if (WUXING_KE[a] === b) keCount++;
+  }
+  if (keCount > 0 && shengCount === 0) return { type: 'bad', desc: '五行相克，能量逆向' };
+  if (shengCount >= wuxingList.length - 1) return { type: 'good', desc: '五行顺向相生，能量流通顺畅' };
+  if (shengCount > 0 && keCount === 0) return { type: 'good', desc: '五行相生为主，流通较好' };
+  if (shengCount > 0 && keCount > 0) return { type: 'mid', desc: '有生有克，能量基本平稳' };
+  return { type: 'mid', desc: '五行无明显生克，能量平稳' };
+}
+
+// 生肖适配
+function analyzeShengxiao(nameChars, shengxiao) {
+  const results = [];
+  const xiMap = {
+    '鼠': ['宀','米','豆','禾','艹','鱼','夕','王','令','君','亥','丑','申','辰'],
+    '牛': ['艹','禾','豆','米','宀','田','车','酉','子','巳','酉'],
+    '虎': ['山','林','木','王','君','令','大','巾','衣','彡','午','戌','亥'],
+    '兔': ['宀','口','艹','禾','豆','米','衣','彡','亥','未','戌'],
+    '龙': ['氵','雨','云','日','月','星','王','大','君','令','申','子','酉'],
+    '蛇': ['口','宀','木','衣','彡','巾','酉','丑','午','未'],
+    '马': ['艹','禾','豆','米','木','巾','衣','彡','寅','戌','未'],
+    '羊': ['艹','禾','豆','米','木','口','宀','亥','卯','午'],
+    '猴': ['木','禾','豆','米','口','宀','人','言','子','辰','巳'],
+    '鸡': ['米','豆','禾','虫','宀','山','冖','巳','丑','辰'],
+    '狗': ['亻','人','宀','心','忄','月','肉','巾','衣','寅','午','卯'],
+    '猪': ['宀','冖','豆','米','禾','艹','木','卯','未','寅']
+  };
+  const jiMap = {
+    '鼠': ['日','午','马','火','灬','人','彳','大','王','君','令'],
+    '牛': ['日','午','马','心','忄','羊','大','王','君','令','刀','刂'],
+    '虎': ['人','彳','口','日','蛇','巳','申','猴','小','臣'],
+    '兔': ['日','酉','鸡','龙','辰','大','王','君','人','彳','刀','刂'],
+    '龙': ['狗','戌','犬','兔','卯','虎','寅','小','臣','口'],
+    '蛇': ['猪','亥','虎','寅','猴','申','大','王','君','令','日','水'],
+    '马': ['鼠','子','牛','丑','日','田','车','大','王','君','令','米'],
+    '羊': ['鼠','子','牛','丑','狗','戌','犬','大','王','君','令','刀'],
+    '猴': ['虎','寅','猪','亥','蛇','巳','大','王','君','令','火','灬'],
+    '鸡': ['兔','卯','狗','戌','犬','大','王','君','令','刀','刂','金'],
+    '狗': ['龙','辰','鸡','酉','羊','未','牛','丑','大','王','君','令'],
+    '猪': ['蛇','巳','猴','申','大','王','君','令','刀','刂','示']
+  };
+  nameChars.forEach(c => {
+    let score = 0, detail = '中性';
+    const xi = xiMap[shengxiao] || [];
+    const ji = jiMap[shengxiao] || [];
+    const data = HANZI_DB[c];
+    const checkStr = c + (data && data.t ? data.t : '');
+    xi.forEach(r => { if (checkStr.includes(r)) score += 1; });
+    ji.forEach(r => { if (checkStr.includes(r)) score -= 1; });
+    if (score > 0) detail = '喜用（+' + score + '）';
+    else if (score < 0) detail = '忌用（' + score + '）';
+    results.push({ char: c, score, detail });
+  });
+  const total = results.reduce((s, r) => s + r.score, 0);
+  return { items: results, total };
+}
+
+// 阴阳平衡
+function analyzeYinYang(nameChars) {
+  let yang = 0, yin = 0;
+  nameChars.forEach(c => {
+    const data = HANZI_DB[c];
+    const stroke = data ? data.s : 0;
+    if (stroke > 0) {
+      if (stroke % 2 === 1) yang++;
+      else yin++;
+    }
+  });
+  return { yang, yin, balanced: Math.abs(yang - yin) <= 1 };
+}
+
+// ===== 改名推荐 =====
+const NAME_POOL = {
+  '木': ['林','森','栋','楷','彬','柏','松','桐','梓','柯','栩','梵','棠','棣','楠','榕','荣','桦','桂','桃','桓','桔','桢','桥','桧','格','栽','栾','树','机','极','权','朵','李','杏','材','村','杖','杜','束','杠','条','杯','杰','果','枝','枢','枣','枪','枫','柜','柠','柑','柒','染','柔','柘','柚','栉','栋','栌','栎','栏','栖','样','核','根','校','株','桑','桓','桔','桠','桡','桢','档','桤','桥','桦','桧','桨','桩','梃','桌','桎','桐','桑','桠','桡','桢','档','桤','桥','桦','桧','桨','桩','梃','格','栽','栾','棋','棍','椒','棹','椟','椤','椭','楼','榄','榆','椴','椽','椿','楗','楝','楠','楣','楸','楹','楼','榀','概','榇','榈','榉','槁','槊','槟','榕','槠','槿','樊','樯','樱','橱','橹','橼','橙','檩','檬'],
+  '火': ['明','朗','炎','炳','烁','炫','烨','焕','煜','熠','灿','炀','炅','炜','炬','炖','炒','炝','炆','炘','炙','炟','炽','炼','荧','春','晓','晨','景','晴','晶','旭','昊','皓','晗','晖','暖','昭','映','昱','昶','昵','昼','晁','晏','晃','晔','晕','晖','暄','暇','暧','暮','暴','曛','曜','曦','灯','灵','灶','灿','灼','炀','炬','炖','炒','炝','炆','炘','炙','炟','炽','烁','烂','烃','炱','炮','炷','炫','炻','炼','荧','炳','焕','煜','熠','灿','炀','炅','炜','炬','炖','炒','炝','炆','炘','炙','炟','炽','炼','荧','炳','焕','煜','熠','灿','心','必','忆','忌','忍','忐','忑','志','忘','忙','忡','忤','忧','忪','快','忭','忮','怃','怄','怅','怆','怒','思','怠','急','怨','怼','怍','怎','怏','怛','怕','怫','怦','怩','怙','恋','恍','恬','恤','恫','恼','恽','悔','悃','悄','悌','悍','悒','悠','您','悫','悬','悭','悯','悱','悲','悸','悼','情','悻','惋','惕','惘','惊','惦','悴','愀','愁','愤','愦','愿','慈','憨','慰','慵','慷','憋','慧','戚','想','愁','愈','愚','感','慈','慧','恩','惠','慧','意','愿','慈','懿'],
+  '土': ['土','山','石','田','坤','坦','垚','城','培','基','堂','坚','均','圻','坂','坩','垅','坫','垆','坼','坻','坨','坭','坶','坳','垭','垤','垌','垲','埏','垴','埕','埘','埙','埚','埝','埤','埯','堑','埽','埭','埴','埸','峰','岭','岩','崖','岗','岸','岛','峡','峦','峙','峋','峒','峡','峤','峥','峦','崂','崃','崧','崮','崤','崎','崖','崦','崭','嵘','嵖','嵛','嵝','嵯','嵬','嵫','嵋','崴','崽','崾','嵇','嵊','嵩','嵴','嶂','嶙','嶝','巅','巍','钻','碎','硬','确','砚','砭','砜','砥','砬','砣','砸','砰','破','砷','砧','砩','砼','砾','础','硁','硅','硇','硌','硎','硒','硕','硖','硗','硙','硚','硝','硫','安','宇','守','宅','宗','定','宜','宝','实','宠','审','宪','宫','宰','害','宽','家','宸','容','寅','寄','寂','宿','密','寇','富','寓','寨','塞','寞','察','寥','谭','谷','豆','贝','赤','走','足','身','车','辛','辰','邑','酉','釆','里','金','长','门','阜','隹','雨','青','非','面','革','韦','音','页','风','飞','食','首','香','马','骨','高','髟','鬥','鬯','鬲','鬼','鱼','鸟','卤','鹿','麦','麻','黄','黍','黑','黹','黾','鼎','鼓','鼠','鼻','齐','齿','龙','龟'],
+  '金': ['金','银','铜','铁','锡','铅','锌','铝','钢','铃','锐','锋','铭','钧','钰','锦','钦','钟','铄','铉','铖','铗','铙','铘','铛','铝','铞','铟','铠','铡','铢','铣','铤','铥','铧','铨','铩','铪','铫','铬','铮','铯','铰','铱','铲','铳','铴','铵','银','铷','铸','铹','铺','铼','铽','链','铿','销','锁','锂','锃','锄','锅','锆','锇','锈','锉','锋','锌','锍','锎','锏','锐','锑','锒','锓','锔','锕','锖','锗','锘','错','锚','锛','锜','锝','锞','锟','锠','锡','锢','锣','锤','锥','锧','锩','锪','锫','锬','锭','键','锯','锰','锱','锲','锳','锴','锵','锶','锷','锸','锹','锺','锻','锼','锾','锿','镀','镁','镂','镃','镄','镅','镆','镇','镈','镉','镊','镋','镌','镍','镎','镏','镐','镑','镒','镓','镔','镕','镖','镗','镘','镙','镚','镛','镜','镝','镞','镠','镡','镢','镣','镤','镥','镦','镧','镨','镩','镪','镫','镬','镭','镮','镯','镰','镱','镲','镳','镴','镵','镶','剑','刚','创','划','列','刘','则','刑','利','判','别','刬','刭','删','刨','利','别','刬','刭','删','刨','利','别','刬','刭','删','刨'],
+  '水': ['海','涵','泽','涛','洋','清','源','渊','溥','溪','潇','漫','澈','澎','潮','澳','潘','澜','澄','澹','澍','浩','汉','江','河','湖','泊','池','汤','汪','沅','沐','沛','汰','沥','沏','沌','沙','冲','泛','汾','沧','泫','洙','洹','洧','泓','法','泗','泛','泞','泠','泡','波','泣','泥','注','泪','泫','泮','泯','泰','泱','泳','泷','泸','泺','泽','泾','洒','洗','洙','洚','洛','洞','洎','洫','洽','洮','洱','洲','洳','洵','汹','汾','沁','沂','沃','沈','沉','沐','沙','没','汽','洼','洁','洪','洒','洌','浃','浅','浆','浇','浊','测','浍','济','浏','浐','浑','浒','浓','浔','浕','涂','涕','涛','涝','涞','涟','涠','涡','涢','涣','涤','润','涧','涕','涨','涩','淀','渊','渌','渍','渎','渐','渑','渖','渔','淘','淙','液','淬','涸','涿','淀','淦','淖','混','淬','淝','淄','淠','淡','淞','淤','添','淼','冰','冷','冻','冼','冽','净','凌','准','凝','雨','雪','雷','雾','露','霜','霞','霖','霏','霓','霎','霈','霍','霏','霓','霎','霈','霍','霏','霓','霎','霈','霍','鱼','鲁','鲜','鲤','鲸','鳄','鳍','鳞','鳜','鳝','鳞']
+};
+
+const CHAR_MEANING = {
+  '林':'树林、茂盛','森':'森林、森严','栋':'栋梁、支撑','楷':'楷模、端正','彬':'文雅、有礼',
+  '松':'松树、坚韧','桐':'梧桐、高洁','梓':'梓树、故乡','柯':'斧柄、法则','栩':'生动、栩栩如生',
+  '梵':'清净、梵音','棠':'海棠、美好','棣':'棣棠、友爱','楠':'楠木、珍贵','榕':'榕树、包容',
+  '荣':'荣耀、繁荣','桦':'白桦、正直','桂':'桂花、富贵','桃':'桃花、美好','桓':'桓柱、威武',
+  '桔':'桔祥、吉利','桢':'桢干、支柱','桥':'桥梁、连接','桧':'桧木、长青','格':'格局、标准',
+  '栽':'栽培、培育','栾':'栾树、华美','树':'树木、树立','明':'光明、明智','朗':'开朗、明亮',
+  '炎':'炎热、光明','炳':'炳烛、显著','烁':'闪烁、光彩','炫':'炫目、华丽','烨':'烨烨、光辉',
+  '焕':'焕发、光彩','煜':'煜煜、照耀','熠':'熠熠、闪光','灿':'灿烂、光彩','春':'春天、生机',
+  '晓':'拂晓、明白','晨':'清晨、朝气','景':'景色、景仰','晴':'晴朗、开朗','晶':'晶莹、明亮',
+  '旭':'旭日、光明','昊':'昊天、广大','皓':'皓白、明亮','晗':'晗亮、天将明','晖':'晖光、阳光',
+  '暖':'温暖、和煦','昭':'昭示、光明','映':'映照、反映','昱':'昱昱、明亮','昶':'昶通、舒畅',
+  '恩':'感恩、恩泽','惠':'贤惠、恩惠','慧':'智慧、聪慧','意':'心意、意志','愿':'愿望、心愿',
+  '慈':'慈祥、仁爱','懿':'懿德、美好','宁':'宁静、安宁','安':'平安、安稳','宇':'宇量、天地',
+  '坤':'坤厚、大地','坦':'坦诚、平坦','城':'城市、坚固','培':'培养、培育','基':'基础、根基',
+  '堂':'堂堂、端正','坚':'坚定、坚强','均':'均衡、公平','峰':'山峰、高峰','岭':'山岭、高大',
+  '岩':'岩石、坚硬','岚':'山岚、雾气','峥':'峥嵘、非凡','嵘':'峥嵘、非凡','嵩':'嵩山、高大',
+  '巍':'巍峨、高大','磊':'光明磊落','硕':'硕大、博学','确':'确实、坚定','砚':'砚台、文房',
+  '铃':'铃铛、清脆','锐':'锐利、敏锐','锋':'锋芒、锐利','铭':'铭记、铭心','钧':'千钧、贵重',
+  '钰':'珍宝、美玉','锦':'锦绣、美好','钦':'钦佩、敬重','钟':'钟爱、专注','铄':'闪烁、熔化',
+  '铉':'铉台、重臣','铮':'铮铮、刚正','银':'白银、珍贵','锦':'锦绣、华美','镇':'镇定、安定',
+  '镜':'明镜、洞察','海':'大海、宽广','涵':'涵养、包容','泽':'恩泽、润泽','涛':'波涛、气势',
+  '洋':'海洋、广大','清':'清澈、清廉','源':'源头、根本','渊':'渊博、深远','溥':'溥博、广大',
+  '溪':'溪流、清澈','潇':'潇洒、洒脱','漫':'浪漫、悠长','澈':'清澈、通透','澎':'澎湃、激荡',
+  '潮':'潮流、趋势','澳':'港湾、深邃','潘':'潘安、俊美','澜':'波澜、壮阔','澄':'澄澈、清明',
+  '澹':'澹泊、恬静','澍':'澍雨、及时雨','浩':'浩瀚、广大','汉':'银河、男子','江':'江河、大气',
+  '河':'河流、壮阔','湖':'湖泊、宁静','沐':'沐浴、润泽','沛':'充沛、丰盛','泓':'泓澄、清澈',
+  '洛':'洛水、文雅','济':'济世、救济','润':'滋润、温润','淳':'淳朴、厚道','渊':'渊博、深远',
+  '淼':'淼茫、水大','冰':'冰雪、纯洁','冷':'冷静、沉稳','凌':'凌云、超越','雨':'雨露、滋润',
+  '雪':'雪花、纯洁','霖':'甘霖、恩泽','霏':'霏微、细雨','霞':'彩霞、美丽'
+};
+
+function generateNames(surname, surnameWx, xiyong, gender, shengxiao) {
+  const results = [];
+  const used = new Set();
+  // 策略：中间字用第一个喜用神，尾字用第二个喜用神（或生第一个喜用神的五行）
+  const strategies = [
+    [xiyong[0], xiyong[1] || xiyong[0]],
+    [xiyong[1] || xiyong[0], xiyong[0]],
+    [xiyong[0], WUXING_SHENG[xiyong[0]] === xiyong[0] ? xiyong[1] || xiyong[0] : xiyong[0]]
+  ];
+  for (let s = 0; s < strategies.length && results.length < 3; s++) {
+    const [midWx, lastWx] = strategies[s];
+    const midPool = (NAME_POOL[midWx] || []).filter(c => HANZI_DB[c]);
+    const lastPool = (NAME_POOL[lastWx] || []).filter(c => HANZI_DB[c]);
+    for (let i = 0; i < midPool.length && results.length < 3; i++) {
+      for (let j = 0; j < lastPool.length && results.length < 3; j++) {
+        const mid = midPool[i], last = lastPool[j];
+        const name = surname + mid + last;
+        if (used.has(name)) continue;
+        if (mid === last) continue;
+        used.add(name);
+        const midWx2 = getWuxing(mid).wuxing;
+        const lastWx2 = getWuxing(last).wuxing;
+        const flow = analyzeFlow([surnameWx, midWx2, lastWx2]);
+        results.push({
+          name, mid, last,
+          midWx: midWx2, lastWx: lastWx2,
+          midMean: CHAR_MEANING[mid] || '',
+          lastMean: CHAR_MEANING[last] || '',
+          flow: flow.type,
+          flowDesc: flow.desc
+        });
+        if (results.length >= 3) break;
+      }
+    }
+  }
+  return results;
+}
+
+// ===== 主分析函数 =====
+function analyze() {
+  const name = document.getElementById('nameInput').value.trim();
+  const gender = document.querySelector('.gender-option.active').dataset.gender;
+  const year = parseInt(document.getElementById('yearSelect').value);
+  const month = parseInt(document.getElementById('monthSelect').value);
+  const day = parseInt(document.getElementById('daySelect').value);
+  const hourVal = document.getElementById('hourSelect').value;
+
+  if (!name || name.length < 2 || name.length > 4) { alert('请输入2-4字姓名'); return; }
+  if (!year || !month || !day) { alert('请选择完整的公历生日'); return; }
+
+  // 八字排盘
+  const yearP = getYearPillar(year);
+  const monthP = getMonthPillar(year, month, day, yearP.gan);
+  const dayP = getDayPillar(year, month, day);
+  let hourP = null;
+  if (hourVal !== '') {
+    hourP = getHourPillar(dayP.gan, parseInt(hourVal));
+  }
+  const bazi = { year: yearP, month: monthP, day: dayP, hour: hourP };
+
+  // 身强身弱
+  const strength = analyzeStrength(bazi);
+  // 喜用神
+  const xiyong = getXiYong(dayP.gan, strength.isStrong);
+  // 生肖
+  const shengxiao = ZHI_SHENGXIAO[yearP.zhi];
+
+  // 逐字五行
+  const chars = name.split('');
+  const charAnalysis = chars.map(c => ({ char: c, ...getWuxing(c) }));
+  const wuxingList = charAnalysis.map(c => c.wuxing);
+  const flow = analyzeFlow(wuxingList);
+
+  // 生肖适配
+  const sx = analyzeShengxiao(chars, shengxiao);
+  // 阴阳
+  const yy = analyzeYinYang(chars);
+
+  // 五维度评分
+  const flowScore = flow.type === 'good' ? 9 : flow.type === 'mid' ? 6 : 3;
+  const yyScore = yy.balanced ? 8 : 5;
+  const sxScore = Math.max(2, Math.min(10, 6 + sx.total));
+  // 八字匹配：名字中喜用神数量
+  let xiCount = 0, jiCount = 0;
+  wuxingList.forEach(w => {
+    if (w && xiyong.xiyong.includes(w)) xiCount++;
+    if (w && xiyong.jishen.includes(w)) jiCount++;
+  });
+  const baziScore = Math.max(2, Math.min(10, 5 + xiCount * 2 - jiCount * 1.5));
+  const totalScore = Math.round((flowScore + yyScore + sxScore + baziScore + 7) / 5 * 10) / 10;
+
+  // 改名建议
+  const surname = chars[0];
+  const surnameWx = getWuxing(surname).wuxing;
+  const recommendations = generateNames(surname, surnameWx, xiyong.xiyong, gender, shengxiao);
+
+  // 渲染报告
+  renderReport({
+    name, gender, year, month, day, hourVal, bazi, strength, xiyong, shengxiao,
+    charAnalysis, wuxingList, flow, sx, yy,
+    flowScore, yyScore, sxScore, baziScore, totalScore,
+    xiCount, jiCount, recommendations
+  });
+}
+
+function renderReport(d) {
+  const dayGan = d.bazi.day.gan;
+  const hourLabel = d.hourVal !== '' ? DIZHI[parseInt(d.hourVal)] + '时' : '无时柱';
+  const verdict = d.totalScore >= 8 ? '名字优秀，可保持' : d.totalScore >= 6 ? '名字良好，可优化' : d.totalScore >= 4 ? '名字中等，建议考虑改名' : '名字偏弱，建议改名';
+  const scoreClass = d.totalScore >= 7 ? '' : d.totalScore >= 5 ? 'mid' : 'bad';
+
+  // 地支关系
+  const dzRelations = analyzeDizhiRelations(d.bazi);
+  const dzText = dzRelations.length > 0 ? dzRelations.map(r => r.text).join(' · ') : '无明显冲合刑害';
+  const dzType = dzRelations.some(r => r.type === '冲' || r.type === '刑') ? 'bad' : dzRelations.some(r => r.type === '合' || r.type === '三合') ? 'good' : 'mid';
+
+  // 十神解读
+  const xiShishen = d.xiyong.xiyong.map(w => {
+    const s = getShishenDetail(dayGan, w);
+    return w + '(' + s.name + ')';
+  }).join('、');
+  const jiShishen = d.xiyong.jishen.map(w => {
+    const s = getShishenDetail(dayGan, w);
+    return w + '(' + s.name + ')';
+  }).join('、');
+
+  // 五行流通详细解读
+  let flowDetail = '';
+  for (let i = 0; i < d.wuxingList.length - 1; i++) {
+    const a = d.wuxingList[i], b = d.wuxingList[i+1];
+    if (!a || !b) continue;
+    const aChar = d.charAnalysis[i].char, bChar = d.charAnalysis[i+1].char;
+    if (WUXING_SHENG[a] === b) {
+      flowDetail += `${aChar}（${a}）生${bChar}（${b}），顺向相生；`;
+    } else if (WUXING_KE[a] === b) {
+      flowDetail += `${aChar}（${a}）克${bChar}（${b}），能量受阻；`;
+    } else if (a === b) {
+      flowDetail += `${aChar}（${a}）与${bChar}（${b}）比和；`;
+    }
+  }
+
+  // 阴阳平衡详细
+  const yyDetail = d.charAnalysis.map(c => {
+    const structure = getCharStructure(c.char);
+    return c.char + '（' + structure + '）';
+  }).join('、');
+
+  // 生肖详细
+  const sxDetail = SHENGXIAO_DETAIL[d.shengxiao] || {xi: '', ji: ''};
+
+  // 字形象意
+  const meaningText = d.charAnalysis.slice(1).map(c => {
+    const m = CHAR_MEANING[c.char] || c.char;
+    return c.char + '=' + m;
+  }).join('、');
+
+  let html = `
+    <div class="header">
+      <div class="subtitle">观复姓名学 · 深度分析报告</div>
+      <h1>姓名学综合诊断</h1>
+      <div class="name-display">${d.name}</div>
+      <div class="info">
+        <span>📅 公历${d.year}年${d.month}月${d.day}日</span>
+        <span>🕐 ${hourLabel}</span>
+        <span>${d.gender === '男' ? '👨' : '👩'} ${d.gender}</span>
+        <span>🐾 属${d.shengxiao}</span>
+      </div>
+    </div>
+
+    <!-- 八字排盘 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">☯</span> 八字排盘</div>
+      <div class="bazi-grid">
+        <div class="bazi-pillar">
+          <div class="pillar-label">年柱</div>
+          <div class="gan">${d.bazi.year.gan}</div>
+          <div class="zhi">${d.bazi.year.zhi}</div>
+          <div class="wuxing">${GAN_WUXING[d.bazi.year.gan]} · ${ZHI_WUXING[d.bazi.year.zhi]}</div>
+          <div class="shishen">${getShishen(dayGan, d.bazi.year.gan)}</div>
+        </div>
+        <div class="bazi-pillar">
+          <div class="pillar-label">月柱</div>
+          <div class="gan">${d.bazi.month.gan}</div>
+          <div class="zhi">${d.bazi.month.zhi}</div>
+          <div class="wuxing">${GAN_WUXING[d.bazi.month.gan]} · ${ZHI_WUXING[d.bazi.month.zhi]}</div>
+          <div class="shishen">${getShishen(dayGan, d.bazi.month.gan)}</div>
+        </div>
+        <div class="bazi-pillar">
+          <div class="pillar-label">日柱（日主）</div>
+          <div class="gan">${d.bazi.day.gan}</div>
+          <div class="zhi">${d.bazi.day.zhi}</div>
+          <div class="wuxing">${GAN_WUXING[d.bazi.day.gan]} · ${ZHI_WUXING[d.bazi.day.zhi]}</div>
+          <div class="shishen">日主</div>
+        </div>
+        <div class="bazi-pillar">
+          <div class="pillar-label">时柱</div>
+          ${d.bazi.hour ? `
+          <div class="gan">${d.bazi.hour.gan}</div>
+          <div class="zhi">${d.bazi.hour.zhi}</div>
+          <div class="wuxing">${GAN_WUXING[d.bazi.hour.gan]} · ${ZHI_WUXING[d.bazi.hour.zhi]}</div>
+          <div class="shishen">${getShishen(dayGan, d.bazi.hour.gan)}</div>
+          ` : `
+          <div style="color:#666; font-size:14px; padding:20px 0;">无时柱</div>
+          `}
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:15px; font-size:14px; color:#ccc;">
+        日主 <strong style="color:${d.strength.isStrong ? '#2ecc71' : '#e74c3c'};">${dayGan}${GAN_WUXING[dayGan]}</strong>，
+        生${d.bazi.month.zhi}月，${d.strength.isStrong ? '身强' : '身弱'}
+        （得令${d.strength.deLing ? '✓' : '✗'} · 得地${d.strength.deDi} · 得势${d.strength.deShi}）
+      </div>
+      ${d.hourVal === '' ? '<div style="text-align:center; font-size:12px; color:#888; margin-top:8px;">⚠ 无时柱，身强身弱判断仅供参考，建议补充时辰后重新分析</div>' : ''}
+      ${dzRelations.length > 0 ? `
+      <div class="highlight-box ${dzType === 'bad' ? '' : dzType === 'good' ? 'good' : ''}" style="margin-top:20px;">
+        <div class="label">⚠ 地支关系</div>
+        <div class="content">${dzText}</div>
+        <div class="desc">${dzRelations.map(r => {
+          if (r.type === '冲') return r.text + '（相冲，主动荡变化）';
+          if (r.type === '合') return r.text + '（相合，主羁绊合作）';
+          if (r.type === '三合') return r.text + '（三合局，力量增强）';
+          if (r.type === '刑') return r.text + '（相刑，主是非纠葛）';
+          if (r.type === '害') return r.text + '（相害，主暗中受损）';
+          return r.text;
+        }).join('；')}</div>
+      </div>` : ''}
+    </div>
+
+    <!-- 喜用神 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">⚡</span> 喜用神判定</div>
+      <div class="shengyong-box">
+        <div class="shengyong-item xiyong">
+          <div class="label">✓ 喜用神</div>
+          <div class="wuxing-chars">${d.xiyong.xiyong.join(' ')}</div>
+          <div class="desc">${xiShishen}</div>
+        </div>
+        <div class="shengyong-item jishen">
+          <div class="label">✗ 忌神</div>
+          <div class="wuxing-chars">${d.xiyong.jishen.join(' ')}</div>
+          <div class="desc">${jiShishen}</div>
+        </div>
+      </div>
+      <div style="font-size:13px; color:#999; text-align:center; margin-top:15px; line-height:1.9;">
+        ${d.gender === '男' ? '男命' : '女命'}，${d.xiyong.xiyong.map(w => {
+          const s = getShishenDetail(dayGan, w);
+          return w + '为' + s.name + '（' + s.desc + '）';
+        }).join('；')}。<br>
+        <strong style="color:${d.strength.isStrong ? '#e74c3c' : '#2ecc71'};">
+          ${d.strength.isStrong
+            ? dayGan + GAN_WUXING[dayGan] + '身强，需泄需耗需制，' + d.xiyong.xiyong[0] + '（' + getShishenDetail(dayGan, d.xiyong.xiyong[0]).name + '）最为关键——把过旺之气转化为' + getShishenDetail(dayGan, d.xiyong.xiyong[0]).desc
+            : dayGan + GAN_WUXING[dayGan] + '身弱，需生需扶，' + d.xiyong.xiyong[0] + '（' + getShishenDetail(dayGan, d.xiyong.xiyong[0]).name + '）最为关键——' + getShishenDetail(dayGan, d.xiyong.xiyong[0]).desc + '生扶日主'}
+        </strong>
+      </div>
+    </div>
+
+    <!-- 逐字拆解 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">🔍</span> ${d.name} 逐字拆解</div>
+      <table class="score-table">
+        <thead>
+          <tr><th>字</th><th>繁体</th><th>康熙笔画</th><th>五行</th><th>判定依据</th></tr>
+        </thead>
+        <tbody>
+          ${d.charAnalysis.map(c => {
+            const isXi = c.wuxing && d.xiyong.xiyong.includes(c.wuxing);
+            const isJi = c.wuxing && d.xiyong.jishen.includes(c.wuxing);
+            const badge = isXi ? 'good' : isJi ? 'bad' : 'mid';
+            const label = c.wuxing ? c.wuxing + (isXi ? '（喜用）' : isJi ? '（忌神）' : '') : '未知';
+            let methodDetail = c.method;
+            if (c.method === '部首法') methodDetail = '含图一部首，直接属' + c.wuxing;
+            else if (c.method.startsWith('笔画法')) methodDetail = '不在图一部首，' + c.stroke + '画→' + c.wuxing;
+            return `<tr>
+              <td style="font-family:'Noto Serif SC',serif; font-size:18px; font-weight:700;">${c.char}</td>
+              <td>${c.traditional || '-'}</td>
+              <td>${c.stroke ? c.stroke + '画' : '-'}</td>
+              <td><span class="score-badge ${badge}">${label}</span></td>
+              <td>${methodDetail}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+
+      <div style="margin-top:20px;">
+        <div style="font-size:14px; color:#d4af37; font-weight:700; margin-bottom:10px;">五行流通：${d.wuxingList.join(' → ')}</div>
+        <div class="flow-display">
+          ${d.wuxingList.map((w, i) => {
+            if (!w) return '<div class="flow-char" style="color:#666;">未知</div>';
+            let arrow = '';
+            if (i < d.wuxingList.length - 1 && d.wuxingList[i+1]) {
+              const next = d.wuxingList[i+1];
+              if (WUXING_SHENG[w] === next) arrow = '<div class="flow-arrow">→</div>';
+              else if (WUXING_KE[w] === next) arrow = '<div class="flow-arrow bad">✗</div>';
+              else if (w === next) arrow = '<div class="flow-arrow">═</div>';
+              else arrow = '<div class="flow-arrow">→</div>';
+            }
+            return `<div class="flow-char ${WUXING_CLASS[w]}">${d.charAnalysis[i].char}·${w}</div>${arrow}`;
+          }).join('')}
+        </div>
+        <div class="flow-result ${d.flow.type}">
+          ${d.flow.type === 'good' ? '✓ ' : d.flow.type === 'bad' ? '✗ ' : '○ '}${d.flow.desc}
+        </div>
+        <div style="font-size:13px; color:#aaa; margin-top:12px; text-align:center; line-height:1.9;">
+          ${flowDetail}
+        </div>
+      </div>
+    </div>
+
+    <!-- 五维度评分 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">📊</span> 五维度详细评分</div>
+
+      <div class="detail-row">
+        <div class="dim-label">维度1：五行流通</div>
+        <div class="dim-content">
+          <span class="score-badge ${d.flowScore >= 8 ? 'good' : d.flowScore >= 5 ? 'mid' : 'bad'}">${d.flowScore >= 8 ? '优' : d.flowScore >= 5 ? '中' : '差'}（${d.flowScore}/10）</span>
+          <div>${flowDetail}${d.flow.type === 'bad' ? '忌神克喜用，能量逆向。' : d.flow.type === 'good' ? '顺向流通，能量顺畅。' : '有生有克，能量基本平稳。'}</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="dim-label">维度2：阴阳平衡</div>
+        <div class="dim-content">
+          <span class="score-badge ${d.yy.balanced ? 'good' : 'mid'}">${d.yy.balanced ? '良' : '中'}（${d.yyScore}/10）</span>
+          <div>${yyDetail}。阳字${d.yy.yang}个，阴字${d.yy.yin}个，${d.yy.balanced ? '阴阳基本平衡' : '阴阳略有偏颇'}。</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="dim-label">维度3：生肖适配</div>
+        <div class="dim-content">
+          <span class="score-badge ${d.sxScore >= 8 ? 'good' : d.sxScore >= 5 ? 'mid' : 'bad'}">${d.sxScore >= 8 ? '优' : d.sxScore >= 5 ? '中' : '差'}（${d.sxScore}/10）</span>
+          <div>属${d.shengxiao}。${d.sx.items.map(it => it.char + '：' + it.detail).join('；')}。</div>
+          <div style="margin-top:6px; font-size:12px; color:#888;">属${d.shengxiao}喜：${sxDetail.xi}；忌：${sxDetail.ji}。</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="dim-label">维度4：八字匹配</div>
+        <div class="dim-content">
+          <span class="score-badge ${d.baziScore >= 8 ? 'good' : d.baziScore >= 5 ? 'mid' : 'bad'}">${d.baziScore >= 8 ? '优' : d.baziScore >= 5 ? '中' : '差'}（${d.baziScore}/10）</span>
+          <div>名字中喜用神${d.xiCount}个，忌神${d.jiCount}个。${d.xiCount >= 2 ? '喜用神充足' : d.xiCount === 1 ? '喜用神偏少' : '缺喜用神，需补充'}。${d.jiCount > 0 ? '忌神' + d.jiCount + '个，' + (d.flow.type === 'bad' ? '且忌神克喜用，加重不利。' : '需注意。') : ''}</div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="dim-label">维度5：字形象意</div>
+        <div class="dim-content">
+          <span class="score-badge good">良（7/10）</span>
+          <div>${meaningText}。整体寓意积极正面，无明显生僻或贬义字。</div>
+        </div>
+      </div>
+
+      <div class="total-score ${scoreClass}">
+        <div class="score-num">${d.totalScore}</div>
+        <div class="score-label">综合评分（满分10分）</div>
+        <div class="verdict">${verdict}</div>
+      </div>
+      <div style="font-size:13px; color:#999; text-align:center; margin-top:12px;">
+        ${d.flow.type === 'bad' ? '核心问题：五行不流通，忌神克喜用' : d.xiCount < 2 ? '核心问题：喜用神不足，需补充' : '整体较好，可微调优化'}
+      </div>
+    </div>
+
+    <!-- 改名方案 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">✨</span> 改名方案</div>
+
+      <div class="conclusion-box">
+        <h3>选字逻辑</h3>
+        <p>姓氏「${d.name[0]}」属<strong style="color:#f1c40f;">${d.name[0] ? getWuxing(d.name[0]).wuxing : '-'}</strong>${d.name[0] && d.xiyong.xiyong.includes(getWuxing(d.name[0]).wuxing) ? '（喜用）' : d.name[0] && d.xiyong.jishen.includes(getWuxing(d.name[0]).wuxing) ? '（忌神）' : ''}，固定不变。${d.strength.isStrong ? '身强' : '身弱'}，喜用<strong style="color:#2ecc71;">${d.xiyong.xiyong.join('、')}</strong>，忌<strong style="color:#e74c3c;">${d.xiyong.jishen.join('、')}</strong>。</p>
+        <p><strong>核心策略：</strong>名字中补喜用神，形成五行流通，${d.strength.isStrong ? '泄耗过旺之气' : '生扶日主'}。最佳路径：${getWuxing(d.name[0]).wuxing}→${d.xiyong.xiyong[0]}→${d.xiyong.xiyong[1] || d.xiyong.xiyong[0]}（顺通，全喜用）。</p>
+        <p><strong>属${d.shengxiao}喜：</strong>${sxDetail.xi}<br><strong>属${d.shengxiao}忌：</strong>${sxDetail.ji}</p>
+        <p>以下推荐3个名字，均基于五行流通+喜用神+生肖适配综合筛选。</p>
+      </div>
+
+      ${d.recommendations.map((r, i) => {
+        const rankClass = i === 0 ? 'best' : '';
+        const badgeClass = i === 0 ? 'first' : i === 1 ? 'second' : 'third';
+        const rankText = i === 0 ? '🏆 首选推荐' : i === 1 ? '🥈 次选' : '🥉 第三选';
+        return `
+        <div class="recommend-card ${rankClass}">
+          <div class="rank-badge ${badgeClass}">${rankText}</div>
+          <div class="recommend-name">${r.name}</div>
+          <div class="char-analysis">
+            <div class="char-item">
+              <div class="char">${r.name[0]}</div>
+              <div class="char-wuxing ${WUXING_CLASS[getWuxing(r.name[0]).wuxing]}">${getWuxing(r.name[0]).wuxing}</div>
+              <div class="char-mean">姓氏<br>${getWuxing(r.name[0]).wuxing}</div>
+            </div>
+            <div class="char-item">
+              <div class="char">${r.mid}</div>
+              <div class="char-wuxing ${WUXING_CLASS[r.midWx]}">${r.midWx}</div>
+              <div class="char-mean">${r.midMean || '中间字'}</div>
+            </div>
+            <div class="char-item">
+              <div class="char">${r.last}</div>
+              <div class="char-wuxing ${WUXING_CLASS[r.lastWx]}">${r.lastWx}</div>
+              <div class="char-mean">${r.lastMean || '尾字'}</div>
+            </div>
+          </div>
+          <div class="flow-display">
+            <div class="flow-char ${WUXING_CLASS[getWuxing(r.name[0]).wuxing]}">${getWuxing(r.name[0]).wuxing}</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-char ${WUXING_CLASS[r.midWx]}">${r.midWx}</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-char ${WUXING_CLASS[r.lastWx]}">${r.lastWx}</div>
+            <div style="font-size:13px; color:${r.flow === 'good' ? '#2ecc71' : '#f1c40f'}; margin-left:10px;">${r.flow === 'good' ? '✓ 流通' : '○ 平和'}</div>
+          </div>
+          <div class="recommend-desc">
+            <strong>五行流通：</strong>${getWuxing(r.name[0]).wuxing}→${r.midWx}→${r.lastWx}，${r.flowDesc}。<br>
+            <strong>喜用神：</strong>补${d.xiyong.xiyong.join('、')}，${d.strength.isStrong ? '泄耗旺气' : '生扶日主'}。<br>
+            <strong>生肖适配：</strong>属${d.shengxiao}，${r.mid}${r.midMean ? '（' + r.midMean + '）' : ''}，${r.last}${r.lastMean ? '（' + r.lastMean + '）' : ''}。<br>
+            <strong>整体寓意：</strong>${r.midMean}，${r.lastMean}。
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- 综合结论 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">📋</span> 综合结论</div>
+      <div class="conclusion-box">
+        <h3>诊断总结</h3>
+        <p>当前名字「${d.name}」综合评分 <strong style="color:#d4af37;">${d.totalScore}分</strong>（满分10分），${verdict}。</p>
+        <p><strong>五行流通：</strong>${d.flow.desc}（${d.wuxingList.join('→')}）。${flowDetail}</p>
+        <p><strong>八字匹配：</strong>日主${dayGan}${GAN_WUXING[dayGan]}，${d.strength.isStrong ? '身强' : '身弱'}，喜用${d.xiyong.xiyong.join('、')}。名字中喜用神${d.xiCount}个，忌神${d.jiCount}个。</p>
+        <p><strong>地支关系：</strong>${dzText}。</p>
+        <p><strong>核心建议：</strong>${d.totalScore >= 7 ? '名字整体不错，可保持现名，通过签名设计、方位调理等方式进一步优化。' : d.totalScore >= 5 ? '名字有一定基础，但存在优化空间，可考虑改名或通过签名、方位等方式调理。' : '名字存在较明显的问题，建议考虑改名，重点补喜用神并形成五行流通。'}</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('reportContent').innerHTML = html;
+  document.getElementById('inputPage').classList.add('hidden');
+  document.getElementById('reportPage').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+function retry() {
+  document.getElementById('reportPage').classList.add('hidden');
+  document.getElementById('inputPage').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+// 初始化
+initSelects();
+</script>
+</body>
+</html>
